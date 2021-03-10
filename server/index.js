@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 const db = mongoose.connection;
 const bodyParser = require("body-parser")
 require("dotenv").config({path: '.env'})
+const cors = require("cors")
 const PORT = process.env.PORT || 4000;
 
 // Import Schema in order to connect to Graphql
@@ -23,6 +24,13 @@ const schema = makeExecutableSchema({
     resolvers
 })
 
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true
+}
+app.options('*', cors())
+app.use(cors(corsOptions))
+
 // Define the different middlewares and connect to graphiql and graphql
 app.use('/graphiql', graphiqlExpress({
     endpointURL: '/graphql' // Basically reroutes to /graphql
@@ -35,6 +43,8 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
         User
     }
 }))
+
+
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
