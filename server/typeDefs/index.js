@@ -20,6 +20,10 @@ exports.typeDefs =  `
         updatedAt: String
     }
 
+    type Token {
+        token: String!
+    }
+
     # Input types
 
     input UserInput {
@@ -42,6 +46,7 @@ exports.typeDefs =  `
 
     type Mutation {
         addRecipe(recipe: RecipeInput): [Recipe]
+        signupUser(user: UserInput): Token
     }
 
 `;

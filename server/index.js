@@ -4,7 +4,7 @@ const mongoose = require("mongoose")
 const db = mongoose.connection;
 const bodyParser = require("body-parser")
 require("dotenv").config({path: '.env'})
-const cors = require("cors")
+const cors = require("cors");
 const PORT = process.env.PORT || 4000;
 
 // Import Schema in order to connect to Graphql
