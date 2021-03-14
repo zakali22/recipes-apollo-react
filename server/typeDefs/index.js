@@ -28,8 +28,8 @@ exports.typeDefs =  `
 
     input UserInput {
         username: String!
-        email: String! @constraint(format: "email")
-        password: String! @constraint(minLength: 5, pattern: "^[0-9a-zA-Z]*$")
+        email: String!
+        password: String!
     }
 
     input RecipeInput {
@@ -42,6 +42,7 @@ exports.typeDefs =  `
 
     type Query {
         getAllRecipes: [Recipe]
+        getAllUsers: [User]
     }
 
     type Mutation {

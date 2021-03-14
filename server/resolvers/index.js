@@ -9,6 +9,9 @@ exports.resolvers = {
     Query: {
         getAllRecipes: async (obj, args, {Recipe}) => { // Use async/await for any mongoose requests
             return await Recipe.find({})
+        },
+        getAllUsers: async(obj, args, {User}) => {
+            return await User.find({})
         }
     },
 
@@ -24,14 +27,17 @@ exports.resolvers = {
                 return e
             }
         },
-        signupUser: async (obj, {username, email, password}, {User}) => {
+        signupUser: async (obj, {user}, {User}) => {
             try {
-                const user = User.findOne({username})
-                if(user){
+                const {username, email, password} = user;
+                const userObj = await User.findOne({username})
+                if(userObj){
                     throw new Error("User already exists")
                 }
 
-                const newUser = new User({
+                console.log(username, email, password)
+
+                const newUser = await new User({
                     username, 
                     email,
                     password
