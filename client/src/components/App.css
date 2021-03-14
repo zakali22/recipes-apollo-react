@@ -6,4 +6,66 @@
 
 body {
     margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+h1 {
+    font-size: 35px;
+    line-height: 1.1;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 25px;
+    line-height: 1;
+    font-weight: 500;
+}
+
+p {
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav {
+    padding: 20px 0;
+    background: rgb(245, 244, 244);
+    box-shadow: 0 0 10px -1px rgba(0, 0, 0, 0.4);
+}
+
+.nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+}
+
+.nav ul li {
+    transition: all .1s ease;
+    font-weight: 500;
+}
+
+.nav ul li:hover {
+    padding-top: -2px;
+}
+
+.nav ul li:hover a {
+    border-bottom: 2px dotted lightskyblue;
+}
+
+.nav ul li a {
+    color: lightskyblue;
+    font-weight: 700;
+    font-size: 20px;
+    transition: all .1s ease;
 }
