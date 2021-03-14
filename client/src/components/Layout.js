@@ -5,7 +5,7 @@ const Layout = props => {
     return (
         <div>
             <nav className="nav">
-                <div class="container">
+                <div className="container">
                     <ul>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/search">Search</Link></li>
@@ -14,6 +14,7 @@ const Layout = props => {
                     </ul>
                 </div>
             </nav>
+            {props.children}
         </div>
     )
 };

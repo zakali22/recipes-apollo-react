@@ -48,6 +48,7 @@ a {
     align-items: center;
     justify-content: space-between;
     list-style: none;
+    padding: 0;
 }
 
 .nav ul li {
@@ -69,3 +70,9 @@ a {
     font-size: 20px;
     transition: all .1s ease;
 }
+
+
+/* Recipe listing */
+.recipe-listing__details {
+    margin-right: 20px;
+}   

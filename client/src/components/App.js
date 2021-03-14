@@ -1,37 +1,20 @@
 import './App.css';
-import {Query} from "react-apollo"
-import FETCH_ALL_RECIPES from "../queries/fetchAllRecipes"
 import React from 'react';
+import {Route, Switch} from "react-router-dom"
 import Layout from "./Layout"
+import RecipeListing from "./RecipeListing"
+import Signup from "./Signup"
+import Signin from "./Signin"
 
 function App() {
   return (
     <Layout>
       <div className="App">
-        <div className="container">
-          <div className="row">
-              <Query query={FETCH_ALL_RECIPES}>
-                {({loading, data}) => {
-                  if(loading) return <p>Loading</p>
-
-                  const {getAllRecipes} = data
-                  return (  
-                    <React.Fragment>
-                      {
-                        getAllRecipes.map(recipe => (
-                          <div className="col-xs-6">
-                            <h1>{recipe.name}</h1>
-                            <p>{recipe.category}</p>
-                            <p>{recipe.description}</p>
-                          </div>
-                        ))
-                      }
-                    </React.Fragment>
-                  )
-                }}
-              </Query>
-          </div>
-        </div>
+        <Switch>
+          <Route exact path="/" component={RecipeListing} />
+          <Route path="/signin" component={Signin} />
+          <Route path="/signup" component={Signup} />
+        </Switch>
       </div>
     </Layout>
   );
