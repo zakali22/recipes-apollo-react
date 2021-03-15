@@ -37,6 +37,34 @@ a {
     color: inherit;
 }
 
+.btn {
+    padding: 15px 10px;
+    background: transparent;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.btn:hover, .btn:focus {
+    background: #000000;
+    color: #fff;
+}
+
+.btn.btn--primary {
+    background: lightskyblue;
+    color: white;
+    border: 2px solid lightskyblue;
+}
+
+.btn.btn--primary:hover, .btn.btn--primary:focus {
+    background: #fff;
+    color: #000000;
+}
+
+/* Navbar */
+
 .nav {
     padding: 20px 0;
     background: rgb(245, 244, 244);
@@ -69,6 +97,33 @@ a {
     font-weight: 700;
     font-size: 20px;
     transition: all .1s ease;
+}
+
+/* Form */
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 60%;
+}
+
+.form label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 7px;
+}
+
+.form input {
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid #000000;
+    margin-bottom: 15px;
+    padding: 10px 7px;
+}
+
+.form .btn {
+    align-self: flex-start;
+    min-width: 200px;
 }
 
 
