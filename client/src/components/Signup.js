@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Mutation} from "react-apollo"
 import SIGN_UP from "../mutations/signup"
+import Error from "./Error"
 
 export default class Signup extends Component {
     state = {
@@ -30,13 +31,20 @@ export default class Signup extends Component {
                 this.setState({
                     error: null
                 })
-                console.log("Signing in....")
                 signupUserFunc({
                     variables: {
                         username, 
                         email, 
                         password
                     }
+                }).then(() => {
+                    this.setState({
+                        username: '',
+                        email: '',
+                        password: '',
+                        confirm_password: ''
+                    })
+                    this.props.history.push('/signin')
                 }).catch(err => console.log(err))
             } catch(e){
                 console.log(e)
@@ -49,15 +57,10 @@ export default class Signup extends Component {
             })
         }
     }
-    
-    renderGraphqlErrors = (graphQLErrors) => {
-        return (
-            <div>
-                {graphQLErrors.map((err, index) => (
-                    <p key={index} style={{color: 'red'}}>{err.message}</p>
-                ))}
-            </div>
-        )
+
+    formValidation = () => {
+        const {username, email, password, confirm_password} = this.state.form;
+        if(username.length === 0 || email.length === 0 || password.length === 0 || password !== confirm_password) return true
     }
 
     render() {
@@ -65,11 +68,11 @@ export default class Signup extends Component {
             <div className="auth-area signup container">
                 <h1>Signup</h1>
                 <Mutation mutation={SIGN_UP}>
-                    {(signupUser, {error}) => {
+                    {(signupUser, {error, loading}) => {
                         console.log(error)
                         return (
                             <React.Fragment>
-                                {error && this.renderGraphqlErrors(error.graphQLErrors)}
+                                {error && <Error errors={error.graphQLErrors} />}
                                 {this.state.error && <p style={{color: 'red'}}>{this.state.error.message}</p>}
                                 <form className="form" onSubmit={e => this.handleSubmit(e, signupUser)}>
                                     <label htmlFor="username">Username</label>
@@ -84,7 +87,7 @@ export default class Signup extends Component {
                                     <label htmlFor="confirm_password">Confirm Password</label>
                                     <input name="confirm_password" type="password" value={this.state.form.confirm_password} id="confirm_password" placeholder="Enter confirm password" onChange={this.handleInputChange}/> 
                             
-                                    <button className="btn btn--primary" type="submit">Signup</button>
+                                    <button className="btn btn--primary" type="submit" disabled={loading || this.formValidation()}>Signup</button>
                                 </form>
                             </React.Fragment>
                         )

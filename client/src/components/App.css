@@ -47,7 +47,14 @@ a {
     font-size: 17px;
 }
 
-.btn:hover, .btn:focus {
+.btn:disabled, .btn.btn--primary:disabled {
+    cursor: not-allowed;
+    background: lightgray;
+    border-color: lightgray;
+    opacity: 0.7
+}
+
+.btn:hover:not([disabled]), .btn:focus:not([disabled]) {
     background: #000000;
     color: #fff;
 }
@@ -58,7 +65,7 @@ a {
     border: 2px solid lightskyblue;
 }
 
-.btn.btn--primary:hover, .btn.btn--primary:focus {
+.btn.btn--primary:hover:not([disabled]), .btn.btn--primary:focus:not([disabled]) {
     background: #fff;
     color: #000000;
 }
