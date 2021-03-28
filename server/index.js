@@ -36,7 +36,7 @@ app.use(async (req, res, next) => {
     const token = req.headers["authorization"]
 
     if(token !== "null"){
-        const currentUser = await jwt.verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR5bGVyIiwiZW1haWwiOiJ0eWxlckBnbWFpbC5jb20iLCJpYXQiOjE2MTY5NTY5NTQsImV4cCI6MTYxNjk2MDU1NH0.ZTgKGduP24Itq_quLDCy0mvlZrhubiIaFgSj_bQY1Ks", process.env.SECRET)
+        const currentUser = await jwt.verify(token, process.env.SECRET)
         req.currentUser = currentUser
         console.log(token)
     }

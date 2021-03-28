@@ -1,19 +1,10 @@
 import React from 'react';
-import {Link} from "react-router-dom"
+import Navbar from "./Navbar";
 
 const Layout = props => {
     return (
         <div>
-            <nav className="nav">
-                <div className="container">
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/search">Search</Link></li>
-                        <li><Link to="/signin">Signin</Link></li>
-                        <li><Link to="/signup">Signup</Link></li>
-                    </ul>
-                </div>
-            </nav>
+            <Navbar />
             {props.children}
         </div>
     )

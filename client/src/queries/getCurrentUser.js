@@ -10,7 +10,6 @@ export default gql`
                 _id
                 name
             }
-            createdAt
         }
     }
 
