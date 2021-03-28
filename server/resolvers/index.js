@@ -13,6 +13,16 @@ exports.resolvers = {
         },
         getAllUsers: async(obj, args, {User}) => {
             return await User.find({})
+        },
+        getCurrentUser: async (obj, args, {currentUser, User}) => {
+            try {
+                if(!currentUser) return null
+                const currUser = await User.findOne({username: currentUser.username})
+                console.log(currUser)
+                return currUser
+            } catch(e){
+                console.log(e)
+            }
         }
     },
 
@@ -66,6 +76,47 @@ exports.resolvers = {
             } catch(e){
                 return e
             }
+        },
+        addLike: async (obj, {recipeId}, {currentUser, User, Recipe}) => {
+            try {
+                const currUser = await User.findOne({username: currentUser.username})
+                if(!currUser) throw new Error("User doesn't exist")
+                
+                if(currUser.favourites.length === 0) {
+                    const favouriteIds = [...currUser.favourites, recipeId._id]
+                    await User.findOneAndUpdate({username: currentUser.username}, {favourites: favouriteIds}, {new: true}) 
+                    await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": 1}}, {new: true}).exec();
+                    return await User.findOne({username: currentUser.username})
+                } else {
+                    const favouriteExists = currUser.favourites.find(favourite => {
+                        const parsedId = JSON.parse(JSON.stringify(favourite))
+                        return parsedId === recipeId._id
+                    })
+
+                    if(favouriteExists) throw new Error("User has already favourited this recipe")
+
+                    const favouriteIds = [...currUser.favourites, recipeId._id]
+                    await User.findOneAndUpdate({username: currentUser.username}, {favourites: favouriteIds}, {new: true}) 
+                    await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": 1}}, {new: true}).exec();
+                    return await User.findOne({username: currentUser.username})
+                }
+            } catch(e){
+                console.log(e)
+                return e
+            }
+        }
+    },
+    User: {
+        favourites: async (obj, args, {Recipe}) => {
+            const favouritesIds = obj.favourites;
+            const favouritesArr = [];
+
+            for(let favourite in favouritesIds){
+                const recipe = await Recipe.findById(favouritesIds[favourite])
+                favouritesArr.push(recipe)
+                console.log(favouritesArr)
+            }
+            return favouritesArr
         }
     }
 }

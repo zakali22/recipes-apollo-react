@@ -34,21 +34,23 @@ exports.typeDefs =  `
 
     input RecipeInput {
         _id: ID
-        name: String!
-        description: String!
-        category: String!
+        name: String
+        description: String
+        category: String
         likes: Int
     }
 
     type Query {
         getAllRecipes: [Recipe]
         getAllUsers: [User]
+        getCurrentUser: User
     }
 
     type Mutation {
         addRecipe(recipe: RecipeInput): [Recipe]
         signupUser(user: UserInput): Token
         signinUser(user: UserInput): Token
+        addLike(recipeId: RecipeInput): User
     }
 
 `;

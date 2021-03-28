@@ -6,6 +6,7 @@ const bodyParser = require("body-parser")
 require("dotenv").config({path: '.env'})
 const cors = require("cors");
 const PORT = process.env.PORT || 4000;
+const jwt = require("jsonwebtoken")
 
 // Import Schema in order to connect to Graphql
 const Recipe = require("./models/RecipeSchema")
@@ -31,18 +32,30 @@ const corsOptions = {
 app.options('*', cors())
 app.use(cors(corsOptions))
 
+app.use(async (req, res, next) => {
+    const token = req.headers["authorization"]
+
+    if(token !== "null"){
+        const currentUser = await jwt.verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR5bGVyIiwiZW1haWwiOiJ0eWxlckBnbWFpbC5jb20iLCJpYXQiOjE2MTY5NTY5NTQsImV4cCI6MTYxNjk2MDU1NH0.ZTgKGduP24Itq_quLDCy0mvlZrhubiIaFgSj_bQY1Ks", process.env.SECRET)
+        req.currentUser = currentUser
+        console.log(token)
+    }
+    next(); 
+})
+
 // Define the different middlewares and connect to graphiql and graphql
 app.use('/graphiql', graphiqlExpress({
     endpointURL: '/graphql' // Basically reroutes to /graphql
 }))
 
-app.use('/graphql', bodyParser.json(), graphqlExpress({
+app.use('/graphql', bodyParser.json(), graphqlExpress(({currentUser}) => ({
     schema, 
     context: { // The context object passed to each resolver
         Recipe,
-        User
+        User,
+        currentUser
     }
-}))
+})))
 
 
 

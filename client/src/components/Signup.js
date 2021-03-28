@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import {Mutation} from "react-apollo"
 import SIGN_UP from "../mutations/signup"
 import Error from "./Error"
+import withSession from './HOC/withSession'
 
-export default class Signup extends Component {
+class Signup extends Component {
     state = {
         form: {
             username: '',
@@ -37,13 +38,10 @@ export default class Signup extends Component {
                         email, 
                         password
                     }
-                }).then(() => {
-                    this.setState({
-                        username: '',
-                        email: '',
-                        password: '',
-                        confirm_password: ''
-                    })
+                }).then(async ({data}) => {
+                    localStorage.setItem("token", data.signupUser.token)
+                    await this.props.refetch()
+                    this.clearState()
                     this.props.history.push('/signin')
                 }).catch(err => console.log(err))
             } catch(e){
@@ -61,6 +59,17 @@ export default class Signup extends Component {
     formValidation = () => {
         const {username, email, password, confirm_password} = this.state.form;
         if(username.length === 0 || email.length === 0 || password.length === 0 || password !== confirm_password) return true
+    }
+
+    clearState = () => {
+        this.setState({
+            form: {
+                username: '',
+                email: '',
+                password: '',
+                confirm_password: ''
+            }
+        })
     }
 
     render() {
@@ -97,3 +106,6 @@ export default class Signup extends Component {
         )
     }
 }
+
+
+export default withSession(Signup)

@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import {Mutation} from "react-apollo"
 import SIGN_IN_USER from "../mutations/signin"
 import Error from "./Error"
+import withSession from "./HOC/withSession"
 
-export default class Signin extends Component {
+class Signin extends Component {
     state = {
         form: {
             username: '',
@@ -28,10 +29,22 @@ export default class Signin extends Component {
                 username,
                 password
             }
-        }).then(() => {
+        }).then(async ({data}) => {
+            localStorage.setItem("token", data.signinUser.token)
+            await this.props.refetch()
+            this.clearState()
             this.props.history.push('/')
         }).catch(e => {
             console.log(e)
+        })
+    }
+
+    clearState = () => {
+        this.setState({
+            form: {
+                username: '',
+                password: ''
+            }
         })
     }
     
@@ -65,3 +78,6 @@ export default class Signin extends Component {
         )
     }
 }
+
+
+export default withSession(Signin)
