@@ -32,13 +32,21 @@ const corsOptions = {
 app.options('*', cors())
 app.use(cors(corsOptions))
 
-app.use(async (req, res, next) => {
+app.use((req, res, next) => {
     const token = req.headers["authorization"]
 
     if(token !== "null"){
-        const currentUser = await jwt.verify(token, process.env.SECRET)
-        req.currentUser = currentUser
-        console.log(token)
+        jwt.verify(token, process.env.SECRET, function (err, decoded) {
+            if(err) {
+                console.log(err.name)
+                req.headers.authorization = ""
+                console.log(req.headers.authorization)
+                req.currentUser = decoded
+            }
+            req.currentUser = decoded
+            console.log(decoded)
+        })
+
     }
     next(); 
 })

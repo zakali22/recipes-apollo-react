@@ -10,11 +10,12 @@ export default class RecipeListing extends Component {
                     <h1>Recipe listing</h1>
                     <div className="row">
                         <Query query={FETCH_ALL_RECIPES}>
-                            {({loading, data}) => {
+                            {({loading, data, error}) => {
                                 if(loading) return <p>Loading</p>
+                                if(error) return <p>{error.message}</p>
 
                                 const {getAllRecipes} = data
-                                console.log(getAllRecipes)
+                                console.log(data)
                                 return (  
                                     <React.Fragment>
                                     {
@@ -24,6 +25,7 @@ export default class RecipeListing extends Component {
                                                 <h1>{recipe.name}</h1>
                                                 <p>{recipe.category}</p>
                                                 <p>{recipe.description}</p>
+                                                <p>Likes: {recipe.likes}</p>
                                             </div>
                                         </div>
                                         ))
