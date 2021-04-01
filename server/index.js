@@ -4,8 +4,9 @@ const mongoose = require("mongoose")
 const db = mongoose.connection;
 const bodyParser = require("body-parser")
 require("dotenv").config({path: '.env'})
-const cors = require("cors")
+const cors = require("cors");
 const PORT = process.env.PORT || 4000;
+const jwt = require("jsonwebtoken")
 
 // Import Schema in order to connect to Graphql
 const Recipe = require("./models/RecipeSchema")
@@ -31,18 +32,38 @@ const corsOptions = {
 app.options('*', cors())
 app.use(cors(corsOptions))
 
+app.use((req, res, next) => {
+    const token = req.headers["authorization"]
+
+    if(token !== "null"){
+        jwt.verify(token, process.env.SECRET, function (err, decoded) {
+            if(err) {
+                console.log(err.name)
+                req.headers.authorization = ""
+                console.log(req.headers.authorization)
+                req.currentUser = decoded
+            }
+            req.currentUser = decoded
+            console.log(decoded)
+        })
+
+    }
+    next(); 
+})
+
 // Define the different middlewares and connect to graphiql and graphql
 app.use('/graphiql', graphiqlExpress({
     endpointURL: '/graphql' // Basically reroutes to /graphql
 }))
 
-app.use('/graphql', bodyParser.json(), graphqlExpress({
+app.use('/graphql', bodyParser.json(), graphqlExpress(({currentUser}) => ({
     schema, 
     context: { // The context object passed to each resolver
         Recipe,
-        User
+        User,
+        currentUser
     }
-}))
+})))
 
 
 

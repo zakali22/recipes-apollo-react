@@ -20,28 +20,37 @@ exports.typeDefs =  `
         updatedAt: String
     }
 
+    type Token {
+        token: String!
+    }
+
     # Input types
 
     input UserInput {
-        username: String!
-        email: String! @constraint(format: "email")
-        password: String! @constraint(minLength: 5, pattern: "^[0-9a-zA-Z]*$")
+        username: String
+        email: String
+        password: String
     }
 
     input RecipeInput {
         _id: ID
-        name: String!
-        description: String!
-        category: String!
+        name: String
+        description: String
+        category: String
         likes: Int
     }
 
     type Query {
         getAllRecipes: [Recipe]
+        getAllUsers: [User]
+        getCurrentUser: User
     }
 
     type Mutation {
         addRecipe(recipe: RecipeInput): [Recipe]
+        signupUser(user: UserInput): Token
+        signinUser(user: UserInput): Token
+        addLike(recipeId: RecipeInput): User
     }
 
 `;
