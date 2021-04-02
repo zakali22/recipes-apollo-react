@@ -11,6 +11,9 @@ exports.resolvers = {
         getAllRecipes: async (obj, args, {Recipe}) => { // Use async/await for any mongoose requests
             return await Recipe.find({})
         },
+        getRecipe: async (obj, {recipeId}, {Recipe}) => {
+            return await Recipe.findOne({_id: recipeId._id})
+        },
         getAllUsers: async(obj, args, {User}) => {
             return await User.find({})
         },

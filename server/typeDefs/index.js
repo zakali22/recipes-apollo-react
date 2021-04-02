@@ -14,6 +14,7 @@ exports.typeDefs =  `
         _id: ID
         name: String!
         description: String!
+        instructions: String!
         category: String!
         likes: Int
         createdAt: String
@@ -36,12 +37,14 @@ exports.typeDefs =  `
         _id: ID
         name: String
         description: String
+        instructions: String
         category: String
         likes: Int
     }
 
     type Query {
         getAllRecipes: [Recipe]
+        getRecipe(recipeId: RecipeInput): Recipe
         getAllUsers: [User]
         getCurrentUser: User
     }
