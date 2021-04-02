@@ -10,6 +10,10 @@ export default gql`
             likes
             createdAt
             updatedAt
+            createdBy {
+                _id
+                username
+            }
         }
     }
 `

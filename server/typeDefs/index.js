@@ -17,6 +17,7 @@ exports.typeDefs =  `
         instructions: String!
         category: String!
         likes: Int
+        createdBy: User
         createdAt: String
         updatedAt: String
     }

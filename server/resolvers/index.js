@@ -30,13 +30,19 @@ exports.resolvers = {
     },
 
     Mutation: {
-        addRecipe: async (obj, {recipe}, {Recipe}) => {
+        addRecipe: async (obj, {recipe}, {Recipe, currentUser, User}) => {
             try {
-                await new Recipe({
-                    ...recipe
-                }).save();
+                if(currentUser) {
+                    const user = await User.findOne({username: currentUser.username})
+                    await new Recipe({
+                        ...recipe,
+                        createdBy: user._id
+                    }).save();
 
-                return await Recipe.find({})
+                    return await Recipe.find({})
+                }
+
+                throw new Error("Please login to add a recipe")
             } catch(e){
                 return e
             }
@@ -120,6 +126,17 @@ exports.resolvers = {
                 console.log(favouritesArr)
             }
             return favouritesArr
+        }
+    },
+    Recipe: {
+        createdBy: async (obj, args, {User}) => {  
+            try {
+                const userId = obj.createdBy
+                const user = await User.findOne({_id: userId})
+                return user
+            } catch(e){
+                console.log(e)
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ const Navbar = ({session}) => {
                     <li><NavLink to="/search">Search</NavLink></li>
                     {session && session.getCurrentUser ? (
                         <Fragment>
-                            <li><NavLink to="/add/recipe">Add recipe</NavLink></li>
+                            <li><NavLink to="/recipes/add">Add recipe</NavLink></li>
                             <li><NavLink to="/profile">Profile</NavLink></li>
                             <Signout />
                         </Fragment>

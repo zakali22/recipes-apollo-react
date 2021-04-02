@@ -10,7 +10,7 @@ export default class RecipeListing extends Component {
                 <div className="container">
                     <h1>Recipe listing</h1>
                     <div className="row">
-                        <Query query={FETCH_ALL_RECIPES}>
+                        <Query query={FETCH_ALL_RECIPES} pollInterval={0} fetchPolicy={'cache-and-network'}>
                             {({loading, data, error}) => {
                                 if(loading) return <p>Loading</p>
                                 if(error) return <p>{error.message}</p>
