@@ -23,12 +23,22 @@ const handleLike = (props, addLikeFunc, isAuth) => {
     }
 }
 
-const updateUI = (cache, data, props) => {
-    // const dataQuery = cache.readQuery({query: FETCH_RECIPE, variables: {recipeId: props.match.params.id}})
-    // console.log(dataQuery)
+// const updateUI = (cache, {data: {addLike}}, props) => {
+//     const {getRecipe} = cache.readQuery({query: FETCH_RECIPE, variables: {recipeId: props.match.params.id}})
 
-    console.log(props)
-}
+//     cache.writeQuery({
+//         query: FETCH_RECIPE, 
+//         variables: {recipeId: props.match.params.id},
+//         data: {
+//             getRecipe: {
+//                 ...getRecipe,
+//                 likes: getRecipe.likes + 1
+//             }
+//         }
+//     })
+//     console.log(getRecipe)
+//     // console.log(addLike)
+// }
 
 const RecipeItem = (props) => (
     <div className="recipe">
@@ -40,12 +50,11 @@ const RecipeItem = (props) => (
                         if(error) return <p>Error</p>
 
                         const {getRecipe} = data
-                        console.log(data)
                         return (
                             <Query query={GET_CURRENT_USER}>
                                 {({data, loading}) => {
                                     return (
-                                        <Mutation mutation={ADD_LIKE} update={() => updateUI(props)}>
+                                        <Mutation mutation={ADD_LIKE}>
                                         {(addLike, {error}) => {
                                             return (
                                                 <div className="recipe__details">
