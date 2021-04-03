@@ -34,12 +34,12 @@ exports.resolvers = {
             try {
                 if(currentUser) {
                     const user = await User.findOne({username: currentUser.username})
-                    await new Recipe({
+                    const newRecipe = await new Recipe({
                         ...recipe,
                         createdBy: user._id
                     }).save();
 
-                    return await Recipe.find({})
+                    return newRecipe
                 }
 
                 throw new Error("Please login to add a recipe")

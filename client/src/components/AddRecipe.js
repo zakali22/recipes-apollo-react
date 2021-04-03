@@ -3,6 +3,7 @@ import {Mutation} from "react-apollo"
 import ADD_RECIPE from "../mutations/addRecipe"
 import Error from "./Error"
 import withAuth from "./HOC/withAuth"
+import FETCH_ALL_RECIPES from "../queries/fetchAllRecipes"
 
 class AddRecipe extends Component {
     state = {
@@ -41,6 +42,20 @@ class AddRecipe extends Component {
         })
     }
 
+    updateUI = (cache, {data: addRecipe}) => {
+        // console.log("Cache => ", cache)
+        // console.log("Data => ", data)
+
+        const {getAllRecipes} = cache.readQuery({query: FETCH_ALL_RECIPES })
+    
+        cache.writeQuery({
+            query: FETCH_ALL_RECIPES, 
+            data: {
+                getAllRecipes: [...getAllRecipes, addRecipe]
+            }
+        })
+    }
+
     clearState = () => {
         this.setState({
             form: {
@@ -56,7 +71,7 @@ class AddRecipe extends Component {
         return (
             <div className="recipe-form container">
                 <h1>Add Recipe</h1>
-                <Mutation mutation={ADD_RECIPE}>
+                <Mutation mutation={ADD_RECIPE} update={this.updateUI}>
                     {(addRecipe, {error}) => (
                         <>
                             {error && <Error errors={error.graphQLErrors} />}

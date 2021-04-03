@@ -2,21 +2,32 @@ import React from "react"
 import {Query, Mutation} from "react-apollo"
 import FETCH_RECIPE from "../queries/fetchRecipe"
 import ADD_LIKE from "../mutations/addLike"
+import GET_CURRENT_USER from "../queries/getCurrentUser"
 import Error from "./Error"
-import addLike from "../mutations/addLike"
 
 const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.substring(1)
 }
 
-const handleLike = (recipeId, addLikeFunc) => {
-    addLikeFunc({
-        variables: {
-            recipeId
-        }
-    }).catch(e => {
-        console.log(e)
-    })
+const handleLike = (props, addLikeFunc, isAuth) => {
+    if(isAuth){
+        addLikeFunc({
+            variables: {
+                recipeId: props.match.params.id
+            }
+        }).catch(e => {
+            console.log(e)
+        })
+    } else {
+        props.history.push('/signin')
+    }
+}
+
+const updateUI = (cache, data, props) => {
+    // const dataQuery = cache.readQuery({query: FETCH_RECIPE, variables: {recipeId: props.match.params.id}})
+    // console.log(dataQuery)
+
+    console.log(props)
 }
 
 const RecipeItem = (props) => (
@@ -31,21 +42,27 @@ const RecipeItem = (props) => (
                         const {getRecipe} = data
                         console.log(data)
                         return (
-                            <Mutation mutation={ADD_LIKE}>
-                            {(addLike, {error}) => {
-                                return (
-                                    <div className="recipe__details">
-                                        <h1>{getRecipe.name}</h1>
-                                        <p><strong>Created by:</strong> <em>{capitalize(getRecipe.createdBy.username)}</em></p>
-                                        <p><strong>Category:</strong> {getRecipe.category}</p>
-                                        <p><strong>Description:</strong> {getRecipe.description}</p>
-                                        <p><strong>Likes:</strong> {getRecipe.likes}</p>
-                                        <button className="btn btn--primary" onClick={() => handleLike(props.match.params.id, addLike)}>Like</button>
-                                        {error && <Error errors={error.graphQLErrors} />}
-                                    </div>
-                                )
-                            }}
-                            </Mutation>
+                            <Query query={GET_CURRENT_USER}>
+                                {({data, loading}) => {
+                                    return (
+                                        <Mutation mutation={ADD_LIKE} update={() => updateUI(props)}>
+                                        {(addLike, {error}) => {
+                                            return (
+                                                <div className="recipe__details">
+                                                    <h1>{getRecipe.name}</h1>
+                                                    <p><strong>Created by:</strong> <em>{capitalize(getRecipe.createdBy.username)}</em></p>
+                                                    <p><strong>Category:</strong> {getRecipe.category}</p>
+                                                    <p><strong>Description:</strong> {getRecipe.description}</p>
+                                                    <p><strong>Likes:</strong> {getRecipe.likes}</p>
+                                                    <button className="btn btn--primary" onClick={() => handleLike(props, addLike, data.getCurrentUser)}>Like</button>
+                                                    {error && <Error errors={error.graphQLErrors} />}
+                                                </div>
+                                            )
+                                        }}
+                                        </Mutation>
+                                    )
+                                }}
+                            </Query>
                         )
                     }}
                 </Query>
