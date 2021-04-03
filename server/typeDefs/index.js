@@ -54,7 +54,7 @@ exports.typeDefs =  `
         addRecipe(recipe: RecipeInput): Recipe
         signupUser(user: UserInput): Token
         signinUser(user: UserInput): Token
-        addLike(recipeId: RecipeInput): User
+        addLike(recipeId: RecipeInput): Recipe
     }
 
 `;

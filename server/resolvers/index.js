@@ -95,7 +95,7 @@ exports.resolvers = {
                     const favouriteIds = [...currUser.favourites, recipeId._id]
                     await User.findOneAndUpdate({username: currentUser.username}, {favourites: favouriteIds}, {new: true}) 
                     await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": 1}}, {new: true}).exec();
-                    return await User.findOne({username: currentUser.username})
+                    return await Recipe.findOne({_id: recipeId._id})
                 } else {
                     const favouriteExists = currUser.favourites.find(favourite => {
                         const parsedId = JSON.parse(JSON.stringify(favourite))
@@ -107,7 +107,7 @@ exports.resolvers = {
                     const favouriteIds = [...currUser.favourites, recipeId._id]
                     await User.findOneAndUpdate({username: currentUser.username}, {favourites: favouriteIds}, {new: true}) 
                     await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": 1}}, {new: true}).exec();
-                    return await User.findOne({username: currentUser.username})
+                    return await Recipe.findOne({_id: recipeId._id})
                 }
             } catch(e){
                 console.log(e)

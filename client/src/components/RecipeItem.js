@@ -9,12 +9,39 @@ const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.substring(1)
 }
 
-const handleLike = (props, addLikeFunc, isAuth) => {
+const handleLike = (props, addLikeFunc, isAuth, recipe) => {
     if(isAuth){
         addLikeFunc({
             variables: {
                 recipeId: props.match.params.id
+            },
+            optimisticResponse: {
+                __typename: "Mutation",
+                addLike: {
+                    __typename: "Recipe",
+                    ...recipe,
+                    likes: recipe.likes + 1
+                }
+            },
+            update: (store, {data: {addLike}}) => {
+                const {getRecipe} = store.readQuery({query: FETCH_RECIPE, variables: {recipeId: props.match.params.id}})
+                const newRecipe = {
+                    ...getRecipe,
+                    likes: addLike.likes
+                }
+                console.log(addLike)
+                store.writeQuery({
+                    query: FETCH_RECIPE, 
+                    variables: {recipeId: props.match.params.id},
+                    data: {
+                        getRecipe: {
+                            ...newRecipe
+                        }
+                    }
+                })
             }
+        }).then(res => {
+            console.log(res)
         }).catch(e => {
             console.log(e)
         })
@@ -26,13 +53,17 @@ const handleLike = (props, addLikeFunc, isAuth) => {
 // const updateUI = (cache, {data: {addLike}}, props) => {
 //     const {getRecipe} = cache.readQuery({query: FETCH_RECIPE, variables: {recipeId: props.match.params.id}})
 
+//     const newRecipe = {
+//         ...getRecipe,
+//         likes: getRecipe.likes
+//     }
+
 //     cache.writeQuery({
 //         query: FETCH_RECIPE, 
 //         variables: {recipeId: props.match.params.id},
 //         data: {
 //             getRecipe: {
-//                 ...getRecipe,
-//                 likes: getRecipe.likes + 1
+//                 ...newRecipe
 //             }
 //         }
 //     })
@@ -63,7 +94,7 @@ const RecipeItem = (props) => (
                                                     <p><strong>Category:</strong> {getRecipe.category}</p>
                                                     <p><strong>Description:</strong> {getRecipe.description}</p>
                                                     <p><strong>Likes:</strong> {getRecipe.likes}</p>
-                                                    <button className="btn btn--primary" onClick={() => handleLike(props, addLike, data.getCurrentUser)}>Like</button>
+                                                    <button className="btn btn--primary" onClick={() => handleLike(props, addLike, data.getCurrentUser, getRecipe)}>Like</button>
                                                     {error && <Error errors={error.graphQLErrors} />}
                                                 </div>
                                             )
