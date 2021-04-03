@@ -11,6 +11,9 @@ exports.resolvers = {
         getAllRecipes: async (obj, args, {Recipe}) => { // Use async/await for any mongoose requests
             return await Recipe.find({})
         },
+        getRecipe: async (obj, {recipeId}, {Recipe}) => {
+            return await Recipe.findOne({_id: recipeId._id})
+        },
         getAllUsers: async(obj, args, {User}) => {
             return await User.find({})
         },
@@ -27,13 +30,19 @@ exports.resolvers = {
     },
 
     Mutation: {
-        addRecipe: async (obj, {recipe}, {Recipe}) => {
+        addRecipe: async (obj, {recipe}, {Recipe, currentUser, User}) => {
             try {
-                await new Recipe({
-                    ...recipe
-                }).save();
+                if(currentUser) {
+                    const user = await User.findOne({username: currentUser.username})
+                    const newRecipe = await new Recipe({
+                        ...recipe,
+                        createdBy: user._id
+                    }).save();
 
-                return await Recipe.find({})
+                    return newRecipe
+                }
+
+                throw new Error("Please login to add a recipe")
             } catch(e){
                 return e
             }
@@ -86,7 +95,7 @@ exports.resolvers = {
                     const favouriteIds = [...currUser.favourites, recipeId._id]
                     await User.findOneAndUpdate({username: currentUser.username}, {favourites: favouriteIds}, {new: true}) 
                     await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": 1}}, {new: true}).exec();
-                    return await User.findOne({username: currentUser.username})
+                    return await Recipe.findOne({_id: recipeId._id})
                 } else {
                     const favouriteExists = currUser.favourites.find(favourite => {
                         const parsedId = JSON.parse(JSON.stringify(favourite))
@@ -98,7 +107,7 @@ exports.resolvers = {
                     const favouriteIds = [...currUser.favourites, recipeId._id]
                     await User.findOneAndUpdate({username: currentUser.username}, {favourites: favouriteIds}, {new: true}) 
                     await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": 1}}, {new: true}).exec();
-                    return await User.findOne({username: currentUser.username})
+                    return await Recipe.findOne({_id: recipeId._id})
                 }
             } catch(e){
                 console.log(e)
@@ -117,6 +126,17 @@ exports.resolvers = {
                 console.log(favouritesArr)
             }
             return favouritesArr
+        }
+    },
+    Recipe: {
+        createdBy: async (obj, args, {User}) => {  
+            try {
+                const userId = obj.createdBy
+                const user = await User.findOne({_id: userId})
+                return user
+            } catch(e){
+                console.log(e)
+            }
         }
     }
 }

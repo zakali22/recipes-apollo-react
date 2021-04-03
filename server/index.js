@@ -36,17 +36,15 @@ app.use((req, res, next) => {
     const token = req.headers["authorization"]
 
     if(token !== "null"){
-        jwt.verify(token, process.env.SECRET, function (err, decoded) {
+       const decoded = jwt.verify(token, process.env.SECRET, function (err, decoded) {
             if(err) {
-                console.log(err.name)
                 req.headers.authorization = ""
-                console.log(req.headers.authorization)
                 req.currentUser = decoded
             }
-            req.currentUser = decoded
-            console.log(decoded)
+            return decoded
         })
-
+        console.log(decoded)
+        req.currentUser = decoded
     }
     next(); 
 })

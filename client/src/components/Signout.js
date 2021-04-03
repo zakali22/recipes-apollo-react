@@ -2,9 +2,10 @@ import React from "react"
 import {ApolloConsumer} from "react-apollo"
 import {withRouter} from "react-router-dom"
 
-const handleSignout = (client, history) => {
+const handleSignout = async (client, history) => {
     localStorage.removeItem("token")
-    client.resetStore();
+    await client.resetStore(); // Use await, otherwise it will cause an error
+    console.log(client)
     history.push('/')
 }
 

@@ -10,6 +10,10 @@ const RecipeSchema = new Schema({
         type: String,
         required: true
     },
+    instructions: {
+        type: String,
+        required: true
+    },
     category: {
         type: String, 
         required: true
@@ -17,6 +21,10 @@ const RecipeSchema = new Schema({
     likes: {
         type: Number,
         default: 0
+    },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, {timestamps: true})
 

@@ -14,8 +14,10 @@ exports.typeDefs =  `
         _id: ID
         name: String!
         description: String!
+        instructions: String!
         category: String!
         likes: Int
+        createdBy: User
         createdAt: String
         updatedAt: String
     }
@@ -36,21 +38,23 @@ exports.typeDefs =  `
         _id: ID
         name: String
         description: String
+        instructions: String
         category: String
         likes: Int
     }
 
     type Query {
         getAllRecipes: [Recipe]
+        getRecipe(recipeId: RecipeInput): Recipe
         getAllUsers: [User]
         getCurrentUser: User
     }
 
     type Mutation {
-        addRecipe(recipe: RecipeInput): [Recipe]
+        addRecipe(recipe: RecipeInput): Recipe
         signupUser(user: UserInput): Token
         signinUser(user: UserInput): Token
-        addLike(recipeId: RecipeInput): User
+        addLike(recipeId: RecipeInput): Recipe
     }
 
 `;

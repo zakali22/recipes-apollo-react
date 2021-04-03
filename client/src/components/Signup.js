@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Mutation} from "react-apollo"
 import SIGN_UP from "../mutations/signup"
 import Error from "./Error"
-import withSession from './HOC/withSession'
+import withAuth from './HOC/withAuth'
 
 class Signup extends Component {
     state = {
@@ -108,4 +108,4 @@ class Signup extends Component {
 }
 
 
-export default withSession(Signup)
+export default withAuth(Signup)
