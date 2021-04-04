@@ -47,6 +47,13 @@ exports.resolvers = {
                 return e
             }
         },
+        searchRecipe: async (obj, {searchTerm}, {Recipe}) => {
+            let res;
+            res = await Recipe.find({$text: {$search: searchTerm.text}})
+
+            console.log(res)
+            return res 
+        },
         signupUser: async (obj, {user}, {User}) => {
             try {
                 const {username, email, password} = user;

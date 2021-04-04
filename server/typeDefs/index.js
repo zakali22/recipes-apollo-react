@@ -43,6 +43,10 @@ exports.typeDefs =  `
         likes: Int
     }
 
+    input SearchInput {
+        text: String
+    }
+
     type Query {
         getAllRecipes: [Recipe]
         getRecipe(recipeId: RecipeInput): Recipe
@@ -55,6 +59,7 @@ exports.typeDefs =  `
         signupUser(user: UserInput): Token
         signinUser(user: UserInput): Token
         addLike(recipeId: RecipeInput): Recipe
+        searchRecipe(searchTerm: SearchInput): [Recipe]
     }
 
 `;

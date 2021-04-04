@@ -133,8 +133,42 @@ a {
     min-width: 200px;
 }
 
+.form.form-search {
+    flex-direction: row;
+    align-items: stretch;
+    max-width: 80%;
+}
+
+@media(max-width: 767px){
+    .form.form-search {
+        max-width: 100%;
+    }
+}
+
+.form.form-search input {
+    flex: 1;
+    margin-bottom: 0;
+    margin-right: 20px;
+} 
+
+.form.form-search .btn {
+    flex: 0;
+
+}
+
 
 /* Recipe listing */
 .recipe-listing__details {
     margin-right: 20px;
 }   
+
+
+/* Search */
+.search__result-listing .search__result-item {
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+.search__result-listing .search__result-item.search__result-item--border {
+    border-bottom: 1px solid lightslategray;
+}
