@@ -1,46 +1,62 @@
 import React, {Component} from "react"
-import {Mutation} from "react-apollo"
-import SEARCH_RECIPE from "../mutations/search"
+import {ApolloConsumer} from "react-apollo"
+import SEARCH_RECIPE from "../queries/search"
 import SearchResult from "./SearchResult"
 
 class Search extends Component {
     state = {
-        searchTerm: ''
+        searchTerm: '',
+        searchResult: []
     }
 
-    handleInput = e => {
+    handleInput = (e, client) => {
         this.setState({
             searchTerm: e.target.value
+        }, async () => {
+            const {data: {searchRecipe}} = await client.query({
+                query: SEARCH_RECIPE,
+                variables: {
+                    searchTerm: this.state.searchTerm
+                }
+            })
+            console.log(searchRecipe)
+            this.updateResult(searchRecipe)
         })
     }
 
-    handleSearch = (e, searchRecipeFunc) => {
-        e.preventDefault();
-        searchRecipeFunc({
-            variables: {
-                searchTerm: this.state.searchTerm
-            }
-        }).then(res => {
-            console.log(res)
-        }).catch(e => {
-            console.log(e)
+    updateResult = result => {
+        this.setState({
+            searchResult: result
         })
+    }
+
+    handleSearch = (e, client) => {
+        e.preventDefault();
+        // searchRecipeFunc({
+        //     variables: {
+        //         searchTerm: this.state.searchTerm
+        //     }
+        // }).then(res => {
+        //     console.log(res)
+        // }).catch(e => {
+        //     console.log(e)
+        // })
     }
 
     render(){
         return (
-            <Mutation mutation={SEARCH_RECIPE}>
-                {(searchRecipe, {data}) => (
+            <ApolloConsumer>
+                {(client) => (
                     <div className="search container">
                         <h1>Search recipes</h1>
-                        <form className="form form-search" onSubmit={e => this.handleSearch(e, searchRecipe)}>
-                            <input type="text" name="searchTerm" placeholder="Search recipes" value={this.state.searchTerm} onChange={this.handleInput}/>
+                        <form className="form form-search" onSubmit={e => this.handleSearch(e, client)}>
+                            <input type="text" name="searchTerm" placeholder="Search recipes" value={this.state.searchTerm} onChange={e => this.handleInput(e, client)}/>
                             <button type="submit" className="btn btn--secondary">Search</button>
                         </form>
-                        <SearchResult data={data}/>
+                        <SearchResult data={this.state.searchResult}/>
                     </div>
                 )}
-            </Mutation>
+            </ApolloConsumer>
         )
     }
 }

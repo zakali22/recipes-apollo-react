@@ -26,7 +26,18 @@ exports.resolvers = {
             } catch(e){
                 console.log(e)
             }
-        }
+        },
+        searchRecipe: async (obj, {searchTerm}, {Recipe}) => {
+            if(searchTerm) {
+                let res;
+                res = await Recipe.find({$text: {$search: searchTerm.text}}, {score: {$meta: 'textScore'}}).sort({score: {$meta: 'textScore'}})
+    
+                console.log(res)
+                return res 
+            } else {
+                return await Recipe.find().sort({likes: "desc", createdAt: "desc"})
+            }
+        },
     },
 
     Mutation: {
@@ -46,13 +57,6 @@ exports.resolvers = {
             } catch(e){
                 return e
             }
-        },
-        searchRecipe: async (obj, {searchTerm}, {Recipe}) => {
-            let res;
-            res = await Recipe.find({$text: {$search: searchTerm.text}})
-
-            console.log(res)
-            return res 
         },
         signupUser: async (obj, {user}, {User}) => {
             try {

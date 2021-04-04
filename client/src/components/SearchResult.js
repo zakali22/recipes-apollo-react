@@ -5,11 +5,11 @@ const SearchResult = ({data}) => {
         <>
         {
             data && (
-                data.searchRecipe.length ? (
+                data.length ? (
                     <div className="search__result-listing">
-                        <p><strong>Results: {data.searchRecipe.length}</strong></p>
-                        {data.searchRecipe.map(recipe => (
-                            <div className={`search__result-item ${data.searchRecipe.length > 1 ? 'search__result-item--border' : ''}`}>
+                        <p><strong>Results: {data.length}</strong></p>
+                        {data.map(recipe => (
+                            <div className={`search__result-item ${data.length > 1 ? 'search__result-item--border' : ''}`}>
                                 <h3>{recipe.name}</h3>
                                 <span><b>Category:</b> {recipe.category}</span>
                                 <p>{recipe.description}</p>

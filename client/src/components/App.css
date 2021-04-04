@@ -169,6 +169,6 @@ a {
     padding: 10px 0;
 }
 
-.search__result-listing .search__result-item.search__result-item--border {
+.search__result-listing .search__result-item.search__result-item--border:not(:last-of-type) {
     border-bottom: 1px solid lightslategray;
 }
