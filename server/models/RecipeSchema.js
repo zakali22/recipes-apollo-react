@@ -28,4 +28,7 @@ const RecipeSchema = new Schema({
     }
 }, {timestamps: true})
 
+RecipeSchema.autoIndex = true;
+RecipeSchema.index({name: 'text', category: 'text'})
+
 module.exports = mongoose.model('Recipe', RecipeSchema)

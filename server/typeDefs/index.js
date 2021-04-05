@@ -43,11 +43,16 @@ exports.typeDefs =  `
         likes: Int
     }
 
+    input SearchInput {
+        text: String
+    }
+
     type Query {
         getAllRecipes: [Recipe]
         getRecipe(recipeId: RecipeInput): Recipe
         getAllUsers: [User]
         getCurrentUser: User
+        searchRecipe(searchTerm: SearchInput): [Recipe]
     }
 
     type Mutation {
