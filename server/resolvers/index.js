@@ -28,7 +28,7 @@ exports.resolvers = {
             }
         },
         searchRecipe: async (obj, {searchTerm}, {Recipe}) => {
-            if(searchTerm) {
+            if(searchTerm.text) {
                 let res;
                 res = await Recipe.find({$text: {$search: searchTerm.text}}, {score: {$meta: 'textScore'}}).sort({score: {$meta: 'textScore'}})
     

@@ -1,28 +1,39 @@
 import React from "react"
+import {Query} from "react-apollo"
+import FETCH_ALL_RECIPES from "../queries/fetchAllRecipes"
+import SearchResultItem from "./SearchResultItem"
 
-const SearchResult = ({data}) => {
+const SearchResult = ({result}) => {
     return (
-        <>
-        {
-            data && (
-                data.length ? (
-                    <div className="search__result-listing">
-                        <p><strong>Results: {data.length}</strong></p>
-                        {data.map(recipe => (
-                            <div className={`search__result-item ${data.length > 1 ? 'search__result-item--border' : ''}`}>
-                                <h3>{recipe.name}</h3>
-                                <span><b>Category:</b> {recipe.category}</span>
-                                <p>{recipe.description}</p>
-                                <p><b>Instructions:</b> {recipe.instructions}</p>
+        <Query query={FETCH_ALL_RECIPES}>
+        {({data, loading}) => {
+            if(loading) return <p>Loading</p>
+
+            const {getAllRecipes} = data
+            return (
+                <>
+                {
+                    result && (
+                        result.length ? (
+                            <div className="search__result-listing">
+                                <p><strong>Results: {result.length}</strong></p>
+                                {result.map(recipe => (
+                                    <SearchResultItem key={recipe._id} recipe={recipe} result={result}/>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p>There are no recipes found</p>
-                )
+                        ) : (
+                            <div className="search__result-listing">
+                            {getAllRecipes.map(recipe => (
+                                <SearchResultItem key={recipe._id} recipe={recipe} result={getAllRecipes}/>
+                            ))}
+                            </div>
+                        )
+                    )
+                }
+                </>
             )
-        }
-        </>
+        }}
+        </Query>
     )
 }
 

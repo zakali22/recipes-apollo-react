@@ -53,7 +53,7 @@ class Search extends Component {
                             <input type="text" name="searchTerm" placeholder="Search recipes" value={this.state.searchTerm} onChange={e => this.handleInput(e, client)}/>
                             <button type="submit" className="btn btn--secondary">Search</button>
                         </form>
-                        <SearchResult data={this.state.searchResult}/>
+                        <SearchResult result={this.state.searchResult}/>
                     </div>
                 )}
             </ApolloConsumer>

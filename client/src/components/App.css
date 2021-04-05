@@ -167,6 +167,12 @@ a {
 .search__result-listing .search__result-item {
     margin-bottom: 20px;
     padding: 10px 0;
+    width: 100%;
+    display: block;
+}
+
+.search__result-listing .search__result-item {
+    
 }
 
 .search__result-listing .search__result-item.search__result-item--border:not(:last-of-type) {
