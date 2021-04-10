@@ -5,6 +5,7 @@ import Layout from "./Layout"
 import RecipeListing from "./RecipeListing"
 import RecipeItem from "./RecipeItem"
 import AddRecipe from "./AddRecipe"
+import Search from "./Search"
 
 import Signup from "./Signup"
 import Signin from "./Signin"
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/recipes" component={RecipeListing} />
           <Route path="/recipes/add" component={AddRecipe} />
           <Route path="/recipes/:id" component={RecipeItem} />
+          <Route path="/search" component={Search} />
           
           <Route path="/signin" component={Signin} />
           <Route path="/signup" component={Signup} />

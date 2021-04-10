@@ -26,7 +26,18 @@ exports.resolvers = {
             } catch(e){
                 console.log(e)
             }
-        }
+        },
+        searchRecipe: async (obj, {searchTerm}, {Recipe}) => {
+            if(searchTerm.text) {
+                let res;
+                res = await Recipe.find({$text: {$search: searchTerm.text}}, {score: {$meta: 'textScore'}}).sort({score: {$meta: 'textScore'}})
+    
+                console.log(res)
+                return res 
+            } else {
+                return await Recipe.find().sort({likes: "desc", createdAt: "desc"})
+            }
+        },
     },
 
     Mutation: {
