@@ -1,26 +1,26 @@
 import React from "react"
-import withSession from "./HOC/withSession"
+import withAuth from "./HOC/withAuth"
 import UserRecipes from "./UserRecipes"
 import {Link} from "react-router-dom"
 
-const Profile = ({session}) => {
+const Profile = ({auth}) => {
 
-    console.log(session)
+    console.log(auth)
     return (
         <div className="profile container">
-            { session && session.getCurrentUser && (
+            { auth && auth.getCurrentUser && (
                 <>
                 <h2><i>User info</i></h2>
                 <div className="profile__details">
-                    <p><strong>Username</strong>: {session.getCurrentUser.username}</p>
-                    <p><strong>Email</strong>: {session.getCurrentUser.email}</p>
+                    <p><strong>Username</strong>: {auth.getCurrentUser.username}</p>
+                    <p><strong>Email</strong>: {auth.getCurrentUser.email}</p>
                 </div>
 
-                <h2><i>{session.getCurrentUser.username}'s favourites</i></h2>
+                <h2><i>{auth.getCurrentUser.username}'s favourites</i></h2>
                 <div className="profile__details">
                     { 
-                        session && session.getCurrentUser.favourites.length ? (
-                            session.getCurrentUser.favourites.map(recipe => (
+                        auth && auth.getCurrentUser.favourites.length ? (
+                            auth.getCurrentUser.favourites.map(recipe => (
                                 recipe && (
                                     <Link to={`/recipes/${recipe._id}`} key={recipe._id} className="profile__details-favourites listing__item">
                                         <p>{recipe.name}</p>
@@ -33,7 +33,7 @@ const Profile = ({session}) => {
                     }
                 </div>
 
-                <h2><i>{session.getCurrentUser.username}'s recipes created</i></h2>
+                <h2><i>{auth.getCurrentUser.username}'s recipes created</i></h2>
                 <UserRecipes />
                 </>
             )}
@@ -41,4 +41,4 @@ const Profile = ({session}) => {
     )
 }
 
-export default withSession(Profile)
+export default withAuth(Profile)
