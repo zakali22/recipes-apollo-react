@@ -53,6 +53,7 @@ exports.typeDefs =  `
         getAllUsers: [User]
         getCurrentUser: User
         searchRecipe(searchTerm: SearchInput): [Recipe]
+        getCurrentUserRecipes: [Recipe]
     }
 
     type Mutation {

@@ -27,6 +27,18 @@ exports.resolvers = {
                 console.log(e)
             }
         },
+        getCurrentUserRecipes: async (obj, args, {User, Recipe, currentUser}) => {
+            try {
+                if(!currentUser) return null;
+                const {_id} = await User.findOne({username: currentUser.username})
+
+                const recipes = await Recipe.find({createdBy: _id}).sort({likes: "desc", createdAt: "desc"})
+                console.log(recipes)
+                return recipes
+            } catch(e){
+                console.log(e)
+            }
+        },
         searchRecipe: async (obj, {searchTerm}, {Recipe}) => {
             if(searchTerm.text) {
                 let res;
