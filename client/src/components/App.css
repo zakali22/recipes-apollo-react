@@ -163,10 +163,17 @@ a {
 }   
 
 .listing__item {
-    padding: 10px 0;
+    padding: 10px 5px;
     display: block;
     width: 50%;
     border-bottom: 1px solid lightslategray;
+}
+
+.listing__item--inline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
 }
 
 .listing__item:hover {

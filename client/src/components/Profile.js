@@ -19,7 +19,7 @@ const Profile = ({auth}) => {
                 <h2><i>{auth.getCurrentUser.username}'s favourites</i></h2>
                 <div className="profile__details">
                     { 
-                        auth && auth.getCurrentUser.favourites.length ? (
+                        auth.getCurrentUser.favourites.length > 0 ? (
                             auth.getCurrentUser.favourites.map(recipe => (
                                 recipe && (
                                     <Link to={`/recipes/${recipe._id}`} key={recipe._id} className="profile__details-favourites listing__item">

@@ -21,7 +21,7 @@ exports.resolvers = {
             try {
                 if(!currentUser) return null
                 const currUser = await User.findOne({username: currentUser.username})
-                console.log(currUser)
+
                 return currUser
             } catch(e){
                 console.log(e)
@@ -33,7 +33,7 @@ exports.resolvers = {
                 const {_id} = await User.findOne({username: currentUser.username})
 
                 const recipes = await Recipe.find({createdBy: _id}).sort({likes: "desc", createdAt: "desc"})
-                console.log(recipes)
+     
                 return recipes
             } catch(e){
                 console.log(e)
@@ -44,7 +44,7 @@ exports.resolvers = {
                 let res;
                 res = await Recipe.find({$text: {$search: searchTerm.text}}, {score: {$meta: 'textScore'}}).sort({score: {$meta: 'textScore'}})
     
-                console.log(res)
+     
                 return res 
             } else {
                 return await Recipe.find().sort({likes: "desc", createdAt: "desc"})
@@ -78,7 +78,7 @@ exports.resolvers = {
                     throw new Error("User already exists")
                 }
 
-                console.log(username, email, password)
+
 
                 const newUser = await new User({
                     username, 
@@ -136,6 +136,21 @@ exports.resolvers = {
                 console.log(e)
                 return e
             }
+        },
+        deleteUserRecipe: async (obj, {recipeId}, {User, Recipe, currentUser}) => {
+            try {
+                if(!currentUser) return null;
+                const currUser = await User.findOne({username: currentUser.username})
+                const userFav = currUser.favourites.filter(fav => fav._id !== recipeId._id)
+                console.log(currUser.favourites)
+
+                await User.findOneAndUpdate({username: currentUser.username}, {favourites: userFav}, {new: true, useFindAndModify: false}).exec();
+                await Recipe.findOneAndDelete({_id: recipeId._id}).exec();
+
+                return currUser
+            } catch(e){
+                console.log(e)
+            }
         }
     },
     User: {
@@ -146,7 +161,7 @@ exports.resolvers = {
             for(let favourite in favouritesIds){
                 const recipe = await Recipe.findById(favouritesIds[favourite])
                 favouritesArr.push(recipe)
-                console.log(favouritesArr)
+
             }
             return favouritesArr
         }

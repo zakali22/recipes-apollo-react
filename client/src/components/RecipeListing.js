@@ -20,16 +20,21 @@ export default class RecipeListing extends Component {
                                 return (  
                                     <React.Fragment>
                                     {
-                                        getAllRecipes.map(recipe => (
-                                        <Link to={`/recipes/${recipe._id}`} className="col-xs-6" key={recipe._id}>
-                                            <div className="recipe-listing__details">
-                                                <h1>{recipe.name}</h1>
-                                                <p>{recipe.category}</p>
-                                                <p>{recipe.description}</p>
-                                                <p>Likes: {recipe.likes}</p>
-                                            </div>
-                                        </Link>
-                                        ))
+                                        getAllRecipes.length > 0 ? (
+                                            getAllRecipes.map(recipe => (
+                                                <Link to={`/recipes/${recipe._id}`} className="col-xs-6" key={recipe._id}>
+                                                    <div className="recipe-listing__details">
+                                                        <h1>{recipe.name}</h1>
+                                                        <p>{recipe.category}</p>
+                                                        <p>{recipe.description}</p>
+                                                        <p>Likes: {recipe.likes}</p>
+                                                    </div>
+                                                </Link>
+                                            ))
+                                        ) : (
+                                            <p>There are no recipes to list</p>
+                                        )
+
                                     }
                                     </React.Fragment>
                                 )
