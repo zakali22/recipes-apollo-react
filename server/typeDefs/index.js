@@ -53,6 +53,7 @@ exports.typeDefs =  `
         getAllUsers: [User]
         getCurrentUser: User
         searchRecipe(searchTerm: SearchInput): [Recipe]
+        getCurrentUserRecipes: [Recipe]
     }
 
     type Mutation {
@@ -60,6 +61,7 @@ exports.typeDefs =  `
         signupUser(user: UserInput): Token
         signinUser(user: UserInput): Token
         addLike(recipeId: RecipeInput): Recipe
+        deleteUserRecipe(recipeId: RecipeInput): User
     }
 
 `;

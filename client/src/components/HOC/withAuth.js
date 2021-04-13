@@ -4,7 +4,7 @@ import GET_CURRENT_USER from "../../queries/getCurrentUser"
 import {Redirect} from "react-router-dom"
 
 const withAuth = Component => props => (
-    <Query query={GET_CURRENT_USER}>
+    <Query query={GET_CURRENT_USER} fetchPolicy={'cache-and-network'}>
         {({data, loading, refetch}) => {
             // if(loading) return null;
             console.log(Component.name)
