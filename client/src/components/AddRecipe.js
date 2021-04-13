@@ -27,9 +27,13 @@ class AddRecipe extends Component {
     handleSubmit = (e, addRecipeFunc) => {
         e.preventDefault();
 
+        const {name, description, instructions, category} = this.state.form
         addRecipeFunc({
             variables: {
-                ...this.state.form
+                name, 
+                description, 
+                instructions, 
+                category
             }
         }).then((res) => {
             this.clearState();
