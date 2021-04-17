@@ -13,6 +13,7 @@ exports.typeDefs =  `
     type Recipe {
         _id: ID
         name: String!
+        imageUrl: String!
         description: String!
         instructions: String!
         category: String!
@@ -37,6 +38,7 @@ exports.typeDefs =  `
     input RecipeInput {
         _id: ID
         name: String
+        imageUrl: String
         description: String
         instructions: String
         category: String

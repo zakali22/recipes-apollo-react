@@ -5,6 +5,7 @@ export default gql`
         getRecipe(recipeId: {_id: $recipeId}){
             _id
             name
+            imageUrl
             description
             category
             likes

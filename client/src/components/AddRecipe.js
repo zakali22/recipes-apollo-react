@@ -9,6 +9,7 @@ class AddRecipe extends Component {
     state = {
         form: {
             name: '',
+            imageUrl: '',
             description: '',
             instructions: '',
             category: ''
@@ -27,10 +28,11 @@ class AddRecipe extends Component {
     handleSubmit = (e, addRecipeFunc) => {
         e.preventDefault();
 
-        const {name, description, instructions, category} = this.state.form
+        const {name, imageUrl, description, instructions, category} = this.state.form
         addRecipeFunc({
             variables: {
                 name, 
+                imageUrl,
                 description, 
                 instructions, 
                 category
@@ -64,6 +66,7 @@ class AddRecipe extends Component {
         this.setState({
             form: {
                 name: '',
+                imageUrl: '',
                 description: '',
                 instructions: '',
                 category: ''
@@ -82,6 +85,9 @@ class AddRecipe extends Component {
                             <form className="form" onSubmit={(e) => this.handleSubmit(e, addRecipe)}>
                                 <label htmlFor="name">Name</label>
                                 <input name="name" type="text" value={this.state.form.name} id="name" placeholder="Enter name" onChange={this.handleInputChange}/>
+
+                                <label htmlFor="imageUrl">Image URL</label>
+                                <input name="imageUrl" type="description" value={this.state.form.imageUrl} id="imageUrl" placeholder="Enter image URL" onChange={this.handleInputChange}/>
 
                                 <label htmlFor="description">Description</label>
                                 <input name="description" type="description" value={this.state.form.description} id="description" placeholder="Enter description" onChange={this.handleInputChange}/>
