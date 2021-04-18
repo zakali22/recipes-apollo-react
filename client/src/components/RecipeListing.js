@@ -8,8 +8,8 @@ export default class RecipeListing extends Component {
         return (
             <div className="recipe-listing">
                 <div className="container">
-                    <h1>Recipe listing</h1>
-                    <div className="row">
+                    <h1 className="title">Find Recipes You <strong>Love</strong></h1>
+                    <div className="row between-xs">
                         <Query query={FETCH_ALL_RECIPES} fetchPolicy={'cache-and-network'}>
                             {({loading, data, error}) => {
                                 if(loading) return <p>Loading</p>
@@ -22,13 +22,13 @@ export default class RecipeListing extends Component {
                                     {
                                         getAllRecipes.length > 0 ? (
                                             getAllRecipes.map(recipe => (
-                                                <Link to={`/recipes/${recipe._id}`} className="col-xs-6" key={recipe._id}>
-                                                    <div className="recipe-listing__details">
-                                                        <h1>{recipe.name}</h1>
-                                                        <p>{recipe.category}</p>
-                                                        <p>{recipe.description}</p>
-                                                        <p>Likes: {recipe.likes}</p>
+                                                <Link to={`/recipes/${recipe._id}`} className="col-xs-12 col-md recipe-card" key={recipe._id}>
+                                                    <div className="recipe-card__bg" style={{backgroundImage: `url(${recipe.imageUrl})`}}></div>
+                                                    <span className={`recipe-category ${recipe.category}`}>{recipe.category}</span>
+                                                    <div className="recipe-card__details">
+                                                        <h3 className="recipe-card__details-name">{recipe.name}</h3>
                                                     </div>
+                                                    <div className="recipe-card__overlay"></div>
                                                 </Link>
                                             ))
                                         ) : (

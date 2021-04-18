@@ -9,6 +9,7 @@ class AddRecipe extends Component {
     state = {
         form: {
             name: '',
+            imageUrl: '',
             description: '',
             instructions: '',
             category: ''
@@ -27,10 +28,11 @@ class AddRecipe extends Component {
     handleSubmit = (e, addRecipeFunc) => {
         e.preventDefault();
 
-        const {name, description, instructions, category} = this.state.form
+        const {name, imageUrl, description, instructions, category} = this.state.form
         addRecipeFunc({
             variables: {
                 name, 
+                imageUrl,
                 description, 
                 instructions, 
                 category
@@ -64,6 +66,7 @@ class AddRecipe extends Component {
         this.setState({
             form: {
                 name: '',
+                imageUrl: '',
                 description: '',
                 instructions: '',
                 category: ''
@@ -83,15 +86,24 @@ class AddRecipe extends Component {
                                 <label htmlFor="name">Name</label>
                                 <input name="name" type="text" value={this.state.form.name} id="name" placeholder="Enter name" onChange={this.handleInputChange}/>
 
+                                <label htmlFor="imageUrl">Image URL</label>
+                                <input name="imageUrl" type="text" value={this.state.form.imageUrl} id="imageUrl" placeholder="Enter image URL" onChange={this.handleInputChange}/>
+
                                 <label htmlFor="description">Description</label>
-                                <input name="description" type="description" value={this.state.form.description} id="description" placeholder="Enter description" onChange={this.handleInputChange}/>
+                                <input name="description" type="text" value={this.state.form.description} id="description" placeholder="Enter description" onChange={this.handleInputChange}/>
                         
                                 <label htmlFor="instructions">Instructions</label>
-                                <input name="instructions" type="instructions" value={this.state.form.instructions} id="instructions" placeholder="Enter instructions" onChange={this.handleInputChange}/>
+                                <input name="instructions" type="text" value={this.state.form.instructions} id="instructions" placeholder="Enter instructions" onChange={this.handleInputChange}/>
                         
                                 <label htmlFor="category">Category</label>
-                                <input name="category" type="category" value={this.state.form.category} id="category" placeholder="Enter category" onChange={this.handleInputChange}/>
-                        
+                                <select onChange={this.handleInputChange} name="category">
+                                    <option value="" selected hidden disabled>Select a category</option>
+                                    <option value="snack">Snack</option>
+                                    <option value="lunch">Lunch</option>
+                                    <option value="dinner">Dinner</option>
+                                    <option value="dessert">Dessert</option>
+                                </select>
+
                                 <button className="btn btn--primary" type="submit">Add recipe</button>
                             </form>
                         </>

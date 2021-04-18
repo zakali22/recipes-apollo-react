@@ -5,6 +5,7 @@ export default gql`
         getAllRecipes {
             _id
             name
+            imageUrl
             description
             category
             likes

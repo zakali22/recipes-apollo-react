@@ -14,7 +14,7 @@ import Profile from "./Profile"
 function App() {
   return (
     <Layout>
-      <div className="App">
+      <div className="page-content">
         <Switch>
           <Route exact path="/" component={RecipeListing} />
           <Route exact path="/recipes" component={RecipeListing} />

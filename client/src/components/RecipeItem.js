@@ -73,41 +73,56 @@ const handleLike = (props, addLikeFunc, isAuth, recipe) => {
 
 const RecipeItem = (props) => (
     <div className="recipe">
-        <div className="container">
-            <div className="row center-xs">
-                <Query query={FETCH_RECIPE} variables={{recipeId: props.match.params.id}}>
-                    {({loading, data, error}) => {
-                        if(loading) return <p>Loading</p>
-                        if(error) return <p>Error</p>
+        <Query query={FETCH_RECIPE} variables={{recipeId: props.match.params.id}}>
+            {({loading, data, error}) => {
+                if(loading) return <p>Loading</p>
+                if(error) return <p>Error</p>
 
-                        const {getRecipe} = data
-                        return (
-                            <Query query={GET_CURRENT_USER}>
-                                {({data, loading}) => {
+                const {getRecipe} = data
+                return (
+                    <Query query={GET_CURRENT_USER}>
+                        {({data, loading}) => {
+                            return (
+                                <Mutation mutation={ADD_LIKE}>
+                                {(addLike, {error}) => {
                                     return (
-                                        <Mutation mutation={ADD_LIKE}>
-                                        {(addLike, {error}) => {
-                                            return (
-                                                <div className="recipe__details">
-                                                    <h1>{getRecipe.name}</h1>
-                                                    <p><strong>Created by:</strong> <em>{capitalize(getRecipe.createdBy.username)}</em></p>
-                                                    <p><strong>Category:</strong> {getRecipe.category}</p>
-                                                    <p><strong>Description:</strong> {getRecipe.description}</p>
-                                                    <p><strong>Likes:</strong> {getRecipe.likes}</p>
-                                                    <button className="btn btn--primary" onClick={() => handleLike(props, addLike, data.getCurrentUser, getRecipe)}>Like</button>
-                                                    {error && <Error errors={error.graphQLErrors} />}
+                                        <>
+                                        <div className="recipe__header" style={{backgroundImage: `url(${getRecipe.imageUrl})`}}></div>
+                                        <div className="recipe__details">
+                                            <div className="recipe__details-meta">
+                                                <div className="container">
+                                                    <div className="row">
+                                                        <h1 className="recipe__details-title title">{getRecipe.name}</h1>
+                                                        <span className={`recipe-category ${getRecipe.category}`}>{getRecipe.category}</span>
+                                                        <p>Created by: <strong>{capitalize(getRecipe.createdBy.username)}</strong></p>
+                                                        <p>{getRecipe.likes} 💗 </p>
+                                                    </div>
                                                 </div>
-                                            )
-                                        }}
-                                        </Mutation>
+                                            </div>
+                                            <div className="recipe__details-desc">
+                                                <p>{getRecipe.description}</p>
+                                            </div>
+                                            <div className="recipe__details-instructions">
+                                                <div className="container">
+                                                    <div className="row">
+                                                        <h3 className="sub-title">Instructions</h3>
+                                                        <p>{getRecipe.instructions}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button className="btn btn--primary recipe__details-like" onClick={() => handleLike(props, addLike, data.getCurrentUser, getRecipe)}>Like</button>
+                                            {error && <Error errors={error.graphQLErrors} />}
+                                        </div>
+                                        </>
                                     )
                                 }}
-                            </Query>
-                        )
-                    }}
-                </Query>
-            </div>
-        </div>
+                                </Mutation>
+                            )
+                        }}
+                    </Query>
+                )
+            }}
+        </Query>
     </div>
 )
 
