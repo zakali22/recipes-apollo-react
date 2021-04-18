@@ -5,6 +5,7 @@ export default gql`
         getCurrentUserRecipes {
             _id
             name
+            imageUrl
         }
     }
 `
