@@ -11,30 +11,46 @@ body {
 }
 
 h1 {
-    font-size: 35px;
+    font-size: 55px;
     line-height: 1.1;
     font-weight: 500;
+    color: rgb(71 165 224);
 }
 
 h2 {
-    font-size: 30px;
+    font-size: 40px;
     line-height: 1;
     font-weight: 500;
+    color: rgb(71 165 224);
 }
 
 h3 {
-    font-size: 25px;
+    font-size: 33px;
     line-height: 1;
     font-weight: 500;
+    color: rgb(71 165 224);
 }
 
-p {
+p, span {
     font-size: 18px;
 }
 
 a {
     text-decoration: none;
     color: inherit;
+}
+
+.title {
+    color: rgb(71 165 224);
+    border-bottom: 7px dotted rgb(71 165 224);
+    max-width: fit-content;
+    text-align: center;
+    margin: 0 auto;
+    font-weight: 400;
+}
+
+.page-content {
+    padding: 50px 0;
 }
 
 .btn {
@@ -120,12 +136,16 @@ a {
     margin-bottom: 7px;
 }
 
-.form input {
+.form input, .form select {
     border-radius: 6px;
     background: transparent;
     border: 1px solid #000000;
     margin-bottom: 15px;
     padding: 10px 7px;
+}
+
+.form select {
+    max-width: 150px;
 }
 
 .form .btn {
@@ -158,9 +178,97 @@ a {
 
 
 /* Recipe listing */
-.recipe-listing__details {
-    margin-right: 20px;
-}   
+ .recipe-listing .title {
+     margin-bottom: 52px;
+ }
+
+.recipe-card {
+
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 0 10px -1px rgba(0, 0, 0, 0.4);
+    padding: 0;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.recipe-card__bg, .recipe-card__overlay {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.recipe-card__bg {
+    /* background: linear-gradient(rgb(6 6 6 / 56%), rgb(62 61 61 / 47%)) !important; */
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    transition: transform .2s ease-in-out;
+}
+
+.recipe-card__overlay {
+    background: linear-gradient(rgb(6 6 6 / 56%), rgb(62 61 61 / 47%)) !important;
+    transition: opacity .2s ease-in-out;
+}
+
+.recipe-card:hover .recipe-card__overlay {
+    opacity: 0;
+}
+
+.recipe-card:hover .recipe-card__bg {
+    transform: scale(1.1);
+}
+
+.recipe-card .recipe-card__category {
+    background: black;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 7px;
+    font-weight: 500;
+    max-width: fit-content;
+    font-size: 23px;
+    position: relative;
+    left: 20px;
+    bottom: 20px;
+    text-transform: capitalize;
+    z-index: 2;
+}
+
+.recipe-card .recipe-card__category.snack {
+    background: rgb(247,247,247);
+    background: linear-gradient(135deg, rgb(126, 53, 53) 0%, rgb(118, 59, 255) 100%);
+}
+.recipe-card .recipe-card__category.lunch {
+    background: rgb(77,114,198);
+    background: linear-gradient(135deg, rgba(77,114,198,1) 0%, rgb(117, 175, 214) 100%);
+}
+.recipe-card .recipe-card__category.dinner {
+    background: rgb(198,77,77);
+    background: linear-gradient(135deg, rgba(198,77,77,1) 0%, rgba(251,246,59,1) 100%);
+}
+.recipe-card .recipe-card__category.dessert {
+    background: rgb(198,77,77);
+    background: linear-gradient(135deg, rgba(198,77,77,1) 0%, rgba(203,59,255,1) 100%);
+}
+
+
+.recipe-card .recipe-card__details {
+    background: rgb(230 230 230);
+    padding: 16px 10px;
+    z-index: 2;
+}
+
+.recipe-card .recipe-card__details-name {
+    margin: 0;
+    text-transform: capitalize;
+    text-align: center;
+}
 
 .listing__item {
     padding: 10px 5px;
