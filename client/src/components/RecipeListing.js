@@ -24,7 +24,7 @@ export default class RecipeListing extends Component {
                                             getAllRecipes.map(recipe => (
                                                 <Link to={`/recipes/${recipe._id}`} className="col-xs-12 col-md recipe-card" key={recipe._id}>
                                                     <div className="recipe-card__bg" style={{backgroundImage: `url(${recipe.imageUrl})`}}></div>
-                                                    <span className={`recipe-card__category ${recipe.category}`}>{recipe.category}</span>
+                                                    <span className={`recipe-category ${recipe.category}`}>{recipe.category}</span>
                                                     <div className="recipe-card__details">
                                                         <h3 className="recipe-card__details-name">{recipe.name}</h3>
                                                     </div>
