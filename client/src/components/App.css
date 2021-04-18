@@ -50,7 +50,7 @@ a {
 }
 
 .page-content {
-    padding: 50px 0;
+    padding: 50px 15px;
 }
 
 .btn {
@@ -89,7 +89,7 @@ a {
 /* Navbar */
 
 .nav {
-    padding: 20px 0;
+    padding: 20px 15px;
     background: rgb(245, 244, 244);
     box-shadow: 0 0 10px -1px rgba(0, 0, 0, 0.4);
 }
@@ -193,6 +193,7 @@ a {
     margin-bottom: 20px;
     position: relative;
     overflow: hidden;
+    margin-right: 15px;
 }
 
 .recipe-card__bg, .recipe-card__overlay {
@@ -302,4 +303,32 @@ a {
 
 .search__result-listing .search__result-item.search__result-item--border:not(:last-of-type) {
     border-bottom: 1px solid lightslategray;
+}
+
+
+
+/* Media queries */
+@media(max-width: 767px){
+    h1 {
+        font-size: 40px;
+    }
+    
+    h2 {
+        font-size: 30px;
+    }
+    
+    h3 {
+        font-size: 25px;
+    }
+    
+    p, span {
+        font-size: 16px;
+    }
+}
+
+@media(max-width: 440px){
+    .title {
+        text-decoration: underline 4px dotted;
+        border-bottom: none;
+    }
 }

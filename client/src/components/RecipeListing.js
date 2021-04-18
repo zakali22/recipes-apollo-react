@@ -9,7 +9,7 @@ export default class RecipeListing extends Component {
             <div className="recipe-listing">
                 <div className="container">
                     <h1 className="title">Find Recipes You <strong>Love</strong></h1>
-                    <div className="row">
+                    <div className="row between-xs">
                         <Query query={FETCH_ALL_RECIPES} fetchPolicy={'cache-and-network'}>
                             {({loading, data, error}) => {
                                 if(loading) return <p>Loading</p>
@@ -22,7 +22,7 @@ export default class RecipeListing extends Component {
                                     {
                                         getAllRecipes.length > 0 ? (
                                             getAllRecipes.map(recipe => (
-                                                <Link to={`/recipes/${recipe._id}`} className="col-xs-12 col-sm-6 recipe-card" key={recipe._id}>
+                                                <Link to={`/recipes/${recipe._id}`} className="col-xs-12 col-md recipe-card" key={recipe._id}>
                                                     <div className="recipe-card__bg" style={{backgroundImage: `url(${recipe.imageUrl})`}}></div>
                                                     <span className={`recipe-card__category ${recipe.category}`}>{recipe.category}</span>
                                                     <div className="recipe-card__details">
