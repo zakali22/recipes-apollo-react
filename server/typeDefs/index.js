@@ -63,6 +63,7 @@ exports.typeDefs =  `
         signupUser(user: UserInput): Token
         signinUser(user: UserInput): Token
         addLike(recipeId: RecipeInput): Recipe
+        deleteLike(recipeId: RecipeInput): Recipe
         deleteUserRecipe(recipeId: RecipeInput): User
     }
 
