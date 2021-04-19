@@ -361,6 +361,9 @@ a {
 }
 
 /* Search */
+.search__result-listing {
+    margin-top: 50px;
+}
 .search__result-listing .search__result-item {
     /* margin-bottom: 20px; */
     /* padding: 10px 0; */
