@@ -114,24 +114,43 @@ exports.resolvers = {
                 const currUser = await User.findOne({username: currentUser.username})
                 if(!currUser) throw new Error("User doesn't exist")
                 
-                if(currUser.favourites.length === 0) {
+                // if(currUser.favourites.length === 0) {
                     const favouriteIds = [...currUser.favourites, recipeId._id]
                     await User.findOneAndUpdate({username: currentUser.username}, {favourites: favouriteIds}, {new: true}) 
                     await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": 1}}, {new: true}).exec();
                     return await Recipe.findOne({_id: recipeId._id})
-                } else {
-                    const favouriteExists = currUser.favourites.find(favourite => {
-                        const parsedId = JSON.parse(JSON.stringify(favourite))
-                        return parsedId === recipeId._id
-                    })
+                // } else {
+                //     const favouriteExists = currUser.favourites.find(favourite => {
+                //         const parsedId = JSON.parse(JSON.stringify(favourite))
+                //         return parsedId === recipeId._id
+                //     })
 
-                    if(favouriteExists) throw new Error("User has already favourited this recipe")
+                //     if(favouriteExists) throw new Error("User has already favourited this recipe")
 
-                    const favouriteIds = [...currUser.favourites, recipeId._id]
-                    await User.findOneAndUpdate({username: currentUser.username}, {favourites: favouriteIds}, {new: true}) 
-                    await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": 1}}, {new: true}).exec();
-                    return await Recipe.findOne({_id: recipeId._id})
-                }
+                //     const favouriteIds = [...currUser.favourites, recipeId._id]
+                //     await User.findOneAndUpdate({username: currentUser.username}, {favourites: favouriteIds}, {new: true}) 
+                //     await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": 1}}, {new: true}).exec();
+                //     return await Recipe.findOne({_id: recipeId._id})
+                // }
+            } catch(e){
+                console.log(e)
+                return e
+            }
+        },
+        deleteLike: async (obj, {recipeId}, {currentUser, User, Recipe}) => {
+            try {
+                const currUser = await User.findOne({username: currentUser.username})
+                if(!currUser) throw new Error("User doesn't exist")
+
+                const filteredFav = currUser.favourites.filter(favourite => {
+                    const parsedId = JSON.parse(JSON.stringify(favourite._id))
+                    return parsedId !== recipeId._id
+                })
+
+                await User.findOneAndUpdate({username: currentUser.username}, {favourites: filteredFav}).exec();
+                await Recipe.findByIdAndUpdate(recipeId._id, {$inc: {"likes": -1}, }, {new: true}).exec();
+
+                return await Recipe.findOne({_id: recipeId._id})
             } catch(e){
                 console.log(e)
                 return e
