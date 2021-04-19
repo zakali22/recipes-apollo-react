@@ -30,6 +30,20 @@ const handleDelete = (e, deleteUserRecipeFunc, recipeId, getCurrentUserRecipes) 
     })
 }
 
+const handleEdit = (e, editUserRecipeFunc, recipeId, recipe, getCurrentUserRecipes) => {
+    e.preventDefault();
+    console.log(recipeId, recipe)
+    editUserRecipeFunc({
+        variables: {
+            recipeId, 
+            ...recipe
+        },
+        refetchQueries: [
+            {query: GET_CURRENT_USER_RECIPES}
+        ]
+    })
+}
+
 const UserRecipes = () => (
     <Query query={GET_CURRENT_USER_RECIPES} fetchPolicy={'cache-and-network'}>
         {({data, loading, error}) => {
@@ -47,6 +61,7 @@ const UserRecipes = () => (
                                         recipe={recipe} 
                                         getCurrentUserRecipes={getCurrentUserRecipes} 
                                         handleDelete={handleDelete} 
+                                        handleEdit={handleEdit}
                                         isSingle={getCurrentUserRecipes.length === 1}
                                     />
                                 ))}
