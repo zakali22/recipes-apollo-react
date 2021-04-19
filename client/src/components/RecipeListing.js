@@ -23,9 +23,7 @@ export default class RecipeListing extends Component {
                                     {
                                         getAllRecipes.length > 0 ? (
                                             getAllRecipes.map(recipe => (
-                                                // <Link to={`/recipes/${recipe._id}`} className="col-xs-12 col-md recipe-card" key={recipe._id}>
-                                                    <RecipeCard recipe={recipe} key={recipe._id} />
-                                                // </Link>
+                                                <RecipeCard recipe={recipe} key={recipe._id} isSingle={getAllRecipes.length === 1}/>
                                             ))
                                         ) : (
                                             <p>There are no recipes to list</p>
