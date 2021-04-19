@@ -9,6 +9,12 @@ export default gql`
             favourites {
                 _id
                 name
+                imageUrl
+                description
+                category
+                likes
+                createdAt
+                updatedAt
             }
         }
     }

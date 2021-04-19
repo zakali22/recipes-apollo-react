@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Link} from "react-router-dom"
 import {Query} from "react-apollo"
 import FETCH_ALL_RECIPES from "../queries/fetchAllRecipes"
+import RecipeCard from "./RecipeCard"
 
 export default class RecipeListing extends Component {
     render() {
@@ -22,14 +23,9 @@ export default class RecipeListing extends Component {
                                     {
                                         getAllRecipes.length > 0 ? (
                                             getAllRecipes.map(recipe => (
-                                                <Link to={`/recipes/${recipe._id}`} className="col-xs-12 col-md recipe-card" key={recipe._id}>
-                                                    <div className="recipe-card__bg" style={{backgroundImage: `url(${recipe.imageUrl})`}}></div>
-                                                    <span className={`recipe-category ${recipe.category}`}>{recipe.category}</span>
-                                                    <div className="recipe-card__details">
-                                                        <h3 className="recipe-card__details-name">{recipe.name}</h3>
-                                                    </div>
-                                                    <div className="recipe-card__overlay"></div>
-                                                </Link>
+                                                // <Link to={`/recipes/${recipe._id}`} className="col-xs-12 col-md recipe-card" key={recipe._id}>
+                                                    <RecipeCard recipe={recipe} key={recipe._id} />
+                                                // </Link>
                                             ))
                                         ) : (
                                             <p>There are no recipes to list</p>
