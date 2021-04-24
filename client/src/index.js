@@ -6,7 +6,7 @@ import {ApolloProvider} from "react-apollo"
 import {BrowserRouter as Router} from "react-router-dom"
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://recipes-apollo-react-app.herokuapp.com/graphql',
   fetchOptions: {
     credentials: "include"
   },
