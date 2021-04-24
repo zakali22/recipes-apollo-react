@@ -5,6 +5,7 @@ export default gql`
         searchRecipe(searchTerm: {text: $searchTerm}){
             _id
             name
+            imageUrl
             description
             instructions
             category

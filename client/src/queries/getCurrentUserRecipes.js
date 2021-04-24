@@ -1,11 +1,11 @@
 import {gql} from "apollo-boost"
+import {RECIPE_FRAGMENT} from "./Fragments/recipeFragment"
 
 export default gql`
     query {
         getCurrentUserRecipes {
-            _id
-            name
-            imageUrl
+            ...recipeFields
         }
     }
+    ${RECIPE_FRAGMENT}
 `

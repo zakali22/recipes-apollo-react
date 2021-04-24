@@ -3,7 +3,7 @@ import {Link} from "react-router-dom"
 import {Query, Mutation} from "react-apollo"
 import GET_CURRENT_USER_RECIPES from "../queries/getCurrentUserRecipes"
 import GET_CURRENT_USER from "../queries/getCurrentUser"
-import DELETE_USER_RECIPE from "../mutations/deleteUserRecipe"
+import UserRecipeCard from "./UserRecipeCard"
 
 const handleDelete = (e, deleteUserRecipeFunc, recipeId, getCurrentUserRecipes) => {
     e.preventDefault();
@@ -30,6 +30,20 @@ const handleDelete = (e, deleteUserRecipeFunc, recipeId, getCurrentUserRecipes) 
     })
 }
 
+const handleEdit = (e, editUserRecipeFunc, recipeId, recipe, getCurrentUserRecipes) => {
+    e.preventDefault();
+    console.log(recipeId, recipe)
+    editUserRecipeFunc({
+        variables: {
+            recipeId, 
+            ...recipe
+        },
+        refetchQueries: [
+            {query: GET_CURRENT_USER_RECIPES}
+        ]
+    })
+}
+
 const UserRecipes = () => (
     <Query query={GET_CURRENT_USER_RECIPES} fetchPolicy={'cache-and-network'}>
         {({data, loading, error}) => {
@@ -40,16 +54,19 @@ const UserRecipes = () => (
                 <>
                 {
                     getCurrentUserRecipes.length > 0 ? (
-                        getCurrentUserRecipes.map(recipe => (
-                            <Link to={`/recipes/${recipe._id}`} key={recipe._id} className="profile__details-favourites listing__item listing__item--inline">
-                                <p>{recipe.name}</p>
-                                <Mutation mutation={DELETE_USER_RECIPE}>
-                                    {(deleteUserRecipe, {data}) => (
-                                        <button className="btn btn--primary" onClick={e => handleDelete(e, deleteUserRecipe, recipe._id, getCurrentUserRecipes)}>Delete</button>
-                                    )}
-                                </Mutation>
-                            </Link>
-                        ))
+                        <div className="container">
+                            <div className="row">
+                                {getCurrentUserRecipes.map(recipe => (
+                                    <UserRecipeCard 
+                                        recipe={recipe} 
+                                        getCurrentUserRecipes={getCurrentUserRecipes} 
+                                        handleDelete={handleDelete} 
+                                        handleEdit={handleEdit}
+                                        isSingle={getCurrentUserRecipes.length === 1}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     ) : (
                         <p>There are no recipes created</p>
                     )

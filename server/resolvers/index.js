@@ -170,6 +170,29 @@ exports.resolvers = {
             } catch(e){
                 console.log(e)
             }
+        },
+        editUserRecipe: async (obj, {recipe}, {User, Recipe, currentUser}) => {
+            try {
+                if(!currentUser) return null;
+                const currUser = await User.findOne({username: currentUser.username})
+                const recipeFav = currUser.favourites.map(fav => {
+                    if(fav && fav._id === recipe._id){
+                        return {
+                            ...fav, 
+                            ...recipe
+                        }
+                    } else {
+                        return fav
+                    }
+                })
+
+                await Recipe.findOneAndUpdate({_id: recipe._id}, {...recipe}, {new: true}).exec()
+                await User.findOneAndUpdate({username: currentUser.username}, {favourites: recipeFav}, {new: true}).exec();
+                return currUser
+            } catch(e){
+                console.log(e)
+                return e
+            }
         }
     },
     User: {

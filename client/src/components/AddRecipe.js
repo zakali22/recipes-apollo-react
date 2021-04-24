@@ -4,6 +4,7 @@ import ADD_RECIPE from "../mutations/addRecipe"
 import Error from "./Error"
 import withAuth from "./HOC/withAuth"
 import FETCH_ALL_RECIPES from "../queries/fetchAllRecipes"
+import CKEditor from "react-ckeditor-component"
 
 class AddRecipe extends Component {
     state = {
@@ -21,6 +22,16 @@ class AddRecipe extends Component {
             form: {
                 ...state.form,
                 [e.target.name]: e.target.value
+            }
+        }))
+    }
+
+    handleEditorChange = events => {
+        const newContent = events.editor.getData();
+        this.setState((state) => ({
+            form: {
+                ...state.form, 
+                instructions: newContent
             }
         }))
     }
@@ -93,9 +104,16 @@ class AddRecipe extends Component {
                                 <input name="description" type="text" value={this.state.form.description} id="description" placeholder="Enter description" onChange={this.handleInputChange}/>
                         
                                 <label htmlFor="instructions">Instructions</label>
-                                <input name="instructions" type="text" value={this.state.form.instructions} id="instructions" placeholder="Enter instructions" onChange={this.handleInputChange}/>
-                        
-                                <label htmlFor="category">Category</label>
+                                <CKEditor 
+                                    name="instructions"
+                                    content={this.state.form.instructions}
+                                    events={{
+                                        change: this.handleEditorChange
+                                    }}
+                                    style={{marginBottom: '20px'}}
+                                />
+                                                        
+                                <label htmlFor="category" style={{marginTop: '20px'}}>Category</label>
                                 <select onChange={this.handleInputChange} name="category">
                                     <option value="" selected hidden disabled>Select a category</option>
                                     <option value="snack">Snack</option>

@@ -1,12 +1,11 @@
 import React from "react"
 import {Link} from "react-router-dom"
+import RecipeCard from "./RecipeCard"
 
 const SearchResultItem = ({recipe, result = []}) => (
-    <Link to={`/recipes/${recipe._id}`} className={`listing__item search__result-item ${result.length > 1 ? 'search__result-item--border' : ''}`}>
-        <h3>{recipe.name}</h3>
-        <span><b>Category:</b> {recipe.category}</span>
-        <p>{recipe.description}</p>
-    </Link>
+    // <Link to={`/recipes/${recipe._id}`} className={`recipe-card col-xs-12 col-md ${result.length === 1 ? 'recipe-card--single' : ''}`}>
+        <RecipeCard recipe={recipe} isSingle={result.length === 1}/>
+    // </Link>
 )
 
 export default SearchResultItem
