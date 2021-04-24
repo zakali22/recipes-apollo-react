@@ -8,6 +8,7 @@ import PropTypes from "prop-types"
 import Modal from "./Modal"
 import {ReactComponent as Edit} from "../assets/edit-regular.svg"
 import {ReactComponent as Delete} from "../assets/trash-solid.svg"
+import deleteUserRecipe from "../mutations/deleteUserRecipe"
 
 let INITIAL_VALUES = {
     name: '',
@@ -19,6 +20,7 @@ let INITIAL_VALUES = {
 
 const RecipeCard = ({recipe, isSingle, handleDelete, handleEdit, getCurrentUserRecipes}) => {
     const [isEdit, setIsEdit] = React.useState(false)
+    const [isDelete, setIsDelete] = React.useState(false)
     const [form, setForm] = React.useState(INITIAL_VALUES)
     const {loading, data, error} = useQuery(FETCH_RECIPE, {variables: {recipeId: recipe._id}})
 
@@ -50,9 +52,16 @@ const RecipeCard = ({recipe, isSingle, handleDelete, handleEdit, getCurrentUserR
         setIsEdit(false)
     }
 
-    const openModal = e => {
+    const handleDeleteClick = (e, deleteUserRecipe) => {
         e.preventDefault();
-        setIsEdit(true)
+        handleDelete(e, deleteUserRecipe, recipe._id, getCurrentUserRecipes);
+        setIsDelete(false)
+    }
+
+    const openModal = (e, type) => {
+        e.preventDefault();
+        if(type === 'edit') setIsEdit(true)
+        if(type === 'delete') setIsDelete(true)
     }
 
     return (
@@ -64,12 +73,9 @@ const RecipeCard = ({recipe, isSingle, handleDelete, handleEdit, getCurrentUserR
                 <h3 className="recipe-card__details-name">{recipe.name}</h3>
             </div>
             <div className="recipe-card__control">
-                <Edit onClick={openModal}/>
-                <Mutation mutation={DELETE_USER_RECIPE}>
-                    {(deleteUserRecipe, {data}) => (
-                        <Delete onClick={e => handleDelete(e, deleteUserRecipe, recipe._id, getCurrentUserRecipes)} />
-                    )}
-                </Mutation>
+                <Edit onClick={(e) => openModal(e, 'edit')}/>
+                <Delete onClick={(e) => openModal(e, 'delete')} />
+
             </div>
             <div className="recipe-card__overlay"></div>
         </Link>
@@ -104,6 +110,20 @@ const RecipeCard = ({recipe, isSingle, handleDelete, handleEdit, getCurrentUserR
                 </Modal>
             )}
             </Mutation>
+        )}
+
+        {isDelete && (
+            <Modal onModalClose={() => setIsDelete(false)}>
+                <h3>Are you sure you want to delete this recipe?</h3>
+                <div className="row">
+                    <Mutation mutation={DELETE_USER_RECIPE}>
+                        {(deleteUserRecipe, {data}) => (
+                            <button style={{marginRight: '10px'}} className="col-xs-2 btn btn--primary" onClick={(e) => handleDeleteClick(e, deleteUserRecipe)}>Delete</button>
+                        )}
+                    </Mutation>
+                    <button className="col-xs-2 btn btn--primary" onClick={() => setIsDelete(false)}>Cancel</button>
+                </div>
+            </Modal>
         )}
         </>
     )
