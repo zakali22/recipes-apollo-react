@@ -2,6 +2,7 @@ const express = require("express")
 const app = express();
 const mongoose = require("mongoose")
 const db = mongoose.connection;
+const path = require("path")
 const bodyParser = require("body-parser")
 require("dotenv").config({path: '.env'})
 const cors = require("cors");
@@ -50,9 +51,9 @@ app.use((req, res, next) => {
 })
 
 // Define the different middlewares and connect to graphiql and graphql
-app.use('/graphiql', graphiqlExpress({
-    endpointURL: '/graphql' // Basically reroutes to /graphql
-}))
+// app.use('/graphiql', graphiqlExpress({
+//     endpointURL: '/graphql' // Basically reroutes to /graphql
+// }))
 
 app.use('/graphql', bodyParser.json(), graphqlExpress(({currentUser}) => ({
     schema, 
@@ -64,6 +65,13 @@ app.use('/graphql', bodyParser.json(), graphqlExpress(({currentUser}) => ({
 })))
 
 
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static('client/build'))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path(__dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
