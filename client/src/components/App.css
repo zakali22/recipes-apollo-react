@@ -457,6 +457,41 @@ a {
   margin: 25px 0;
 }
 
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(0 0 0 / 68%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+}
+
+.modal .modal__content {
+  width: 100%;
+  background: white;
+  padding: 40px 50px;
+  max-width: 600px;
+  position: relative;
+}
+
+.modal .modal__content .modal__content-close {
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+
 /* Media queries */
 @media (max-width: 767px) {
   h1 {
