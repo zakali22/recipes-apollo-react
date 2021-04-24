@@ -65,6 +65,7 @@ exports.typeDefs =  `
         addLike(recipeId: RecipeInput): Recipe
         deleteLike(recipeId: RecipeInput): Recipe
         deleteUserRecipe(recipeId: RecipeInput): User
+        editUserRecipe(recipe: RecipeInput): User
     }
 
 `;

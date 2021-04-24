@@ -2,39 +2,54 @@ import React from "react"
 import withAuth from "./HOC/withAuth"
 import UserRecipes from "./UserRecipes"
 import {Link} from "react-router-dom"
+import RecipeCard from "./RecipeCard"
 
 const Profile = ({auth}) => {
 
-    console.log(auth)
+    const favouritesLength = (favouritesArr) => {
+        const arr = favouritesArr.filter(fav => fav)
+        return arr.length === 1
+    }
+
     return (
-        <div className="profile container">
+        <div className="profile">
             { auth && auth.getCurrentUser && (
                 <>
-                <h2><i>User info</i></h2>
-                <div className="profile__details">
-                    <p><strong>Username</strong>: {auth.getCurrentUser.username}</p>
-                    <p><strong>Email</strong>: {auth.getCurrentUser.email}</p>
+                <div className="profile__info">
+                    <div className="container">
+                        <h2 className="profile__info-title sub-title">User info</h2>
+                        <div className="profile__details">
+                            <p><strong>Username</strong>: {auth.getCurrentUser.username}</p>
+                            <p><strong>Email</strong>: {auth.getCurrentUser.email}</p>
+                        </div>
+                    </div>
                 </div>
 
-                <h2><i>{auth.getCurrentUser.username}'s favourites</i></h2>
-                <div className="profile__details">
-                    { 
-                        auth.getCurrentUser.favourites.length > 0 ? (
-                            auth.getCurrentUser.favourites.map(recipe => (
-                                recipe && (
-                                    <Link to={`/recipes/${recipe._id}`} key={recipe._id} className="profile__details-favourites listing__item">
-                                        <p>{recipe.name}</p>
-                                    </Link>
-                                )
-                            ))
-                        ) : (
-                            <p>There are no favourited recipes</p>
-                        )
-                    }
+                <div className="profile__recipes">
+                    <div className="container">
+                        <h2 className="sub-title">{auth.getCurrentUser.username}'s favourites</h2>
+                        { 
+                            auth.getCurrentUser.favourites.length > 0 ? (
+                                auth.getCurrentUser.favourites.map(recipe => (
+                                    recipe && (
+                                        // <Link to={`/recipes/${recipe._id}`} key={recipe._id} className="profile__details-favourites listing__item">
+                                             <RecipeCard recipe={recipe} key={recipe._id} isSingle={favouritesLength(auth.getCurrentUser.favourites)}/>
+                                        // </Link>
+                                    )
+                                ))
+                            ) : (
+                                <p>There are no favourited recipes</p>
+                            )
+                        }
+                    </div>
                 </div>
 
-                <h2><i>{auth.getCurrentUser.username}'s recipes created</i></h2>
-                <UserRecipes />
+                <div className="profile__recipes">
+                    <div className="container">
+                        <h2 className="sub-title">{auth.getCurrentUser.username}'s recipes created</h2>
+                        <UserRecipes />
+                    </div>
+                </div>
                 </>
             )}
         </div>

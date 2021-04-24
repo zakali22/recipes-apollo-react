@@ -17,15 +17,23 @@ const SearchResult = ({result}) => {
                         result.length ? (
                             <div className="search__result-listing">
                                 <p><strong>Results: {result.length}</strong></p>
-                                {result.map(recipe => (
-                                    <SearchResultItem key={recipe._id} recipe={recipe} result={result}/>
-                                ))}
+                                <div className="container">
+                                    <div className="row">
+                                        {result.map(recipe => (
+                                            <SearchResultItem key={recipe._id} recipe={recipe} result={result}/>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         ) : (
                             <div className="search__result-listing">
-                            {getAllRecipes.map(recipe => (
-                                <SearchResultItem key={recipe._id} recipe={recipe} result={getAllRecipes}/>
-                            ))}
+                                <div className="container">
+                                    <div className="row">
+                                        {getAllRecipes.map(recipe => (
+                                            <SearchResultItem key={recipe._id} recipe={recipe} result={getAllRecipes}/>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         )
                     )

@@ -146,7 +146,9 @@ const RecipeItem = (props) => {
                                                         <div className="container">
                                                             <div className="row">
                                                                 <h3 className="sub-title">Instructions</h3>
-                                                                <p>{getRecipe.instructions}</p>
+                                                                <div dangerouslySetInnerHTML={{
+                                                                    __html: getRecipe.instructions
+                                                                }}/>
                                                             </div>
                                                         </div>
                                                     </div>
